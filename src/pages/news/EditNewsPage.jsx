@@ -14,7 +14,7 @@ export const EditNewsPage = () => {
 
   const handleSubmit = async (data) => {
     const response = await updateNews(data);
-    if (response.success) {
+    if (response) {
       navigate('/news', { state: { successMessage: 'News updated successfully.' } });
     }
   };
@@ -77,7 +77,7 @@ export const EditNewsPage = () => {
           defaultValues={{
             title: newsData.title,
             content: newsData.content,
-            thumbnail: null // File object starts as null until a new file is picked
+            thumbnail: newsData.thumbnail_url // Pass the string URL so preview works initially
           }}
           previewUrl={previewUrl}
           loading={submitting}

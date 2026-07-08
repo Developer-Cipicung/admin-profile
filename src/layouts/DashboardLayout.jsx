@@ -49,6 +49,7 @@ export const DashboardLayout = () => {
                     : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                 }`
               }
+              onClick={() => setIsSidebarOpen(false)}
             >
               {item.name}
             </NavLink>

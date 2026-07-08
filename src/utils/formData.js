@@ -10,6 +10,8 @@ export const buildNewsFormData = (data) => {
   if (data.content) formData.append('content', data.content);
   if (data.thumbnail instanceof File) {
     formData.append('thumbnail', data.thumbnail);
+  } else if (data.thumbnail === null) {
+    formData.append('remove_thumbnail', 'true');
   }
 
   return formData;
@@ -28,6 +30,8 @@ export const buildProductFormData = (data) => {
   if (data.price) formData.append('price', data.price);
   if (data.image instanceof File) {
     formData.append('image', data.image);
+  } else if (data.image === null) {
+    formData.append('remove_image', 'true');
   }
 
   return formData;

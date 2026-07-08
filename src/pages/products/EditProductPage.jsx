@@ -22,7 +22,7 @@ export const EditProductPage = () => {
 
   const handleSubmit = async (data) => {
     const response = await updateProduct(data);
-    if (response.success) {
+    if (response) {
       navigate('/products', { state: { successMessage: 'Product updated successfully.' } });
     }
   };
@@ -57,7 +57,7 @@ export const EditProductPage = () => {
     name: product.name || '',
     description: product.description || '',
     price: product.price || '',
-    image: null, 
+    image: product.image_url, // Pass the string URL so preview works initially
   };
 
   const currentImageUrl = getFullImageUrl(product.image_url);

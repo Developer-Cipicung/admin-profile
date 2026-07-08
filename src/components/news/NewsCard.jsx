@@ -32,12 +32,12 @@ export const NewsCard = ({ data, loading, onView, onDelete }) => {
               <p>Updated: {formatDate(item.updated_at)}</p>
             </div>
             <div className="mt-4 flex justify-end space-x-3 pt-3 border-t border-gray-100">
-              <button 
-                onClick={() => onView(item)}
+              <Link 
+                to={`/news/${item.id}`}
                 className="text-xs font-medium text-blue-600"
               >
                 View
-              </button>
+              </Link>
               <Link to={`/news/${item.id}/edit`} className="text-xs font-medium text-indigo-600">Edit</Link>
               <button 
                 onClick={() => onDelete(item)}

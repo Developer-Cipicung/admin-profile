@@ -62,7 +62,10 @@ export const useEditNews = (id) => {
       
       // If the backend returns validation errors as an array
       if (err.data && err.data.errors && Array.isArray(err.data.errors)) {
-        const messages = err.data.errors.map(e => Object.values(e)[0]).join(', ');
+        const messages = err.data.errors.map(e => {
+          if (typeof e === 'string') return e;
+          return Object.values(e)[0];
+        }).join(', ');
         setServerError(messages || 'Validation failed.');
       } else {
         setServerError(err.message || 'An error occurred while updating news.');

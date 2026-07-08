@@ -9,8 +9,6 @@ import { NewsCard } from '../../components/news/NewsCard';
 import { Pagination } from '../../components/common/Pagination';
 import { Button } from '../../components/common/Button';
 import { DeleteConfirmationModal } from '../../components/common/DeleteConfirmationModal';
-import { ViewDetailsModal } from '../../components/common/ViewDetailsModal';
-import { formatDate } from '../../utils/date';
 import { handlePaginationAfterDelete } from '../../utils/paginationHelper';
 
 export const NewsPage = () => {
@@ -18,7 +16,6 @@ export const NewsPage = () => {
   const location = useLocation();
   const [searchInput, setSearchInput] = useState('');
   const [itemToDelete, setItemToDelete] = useState(null);
-  const [itemToView, setItemToView] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
   
   const {
@@ -129,13 +126,11 @@ export const NewsPage = () => {
           <NewsTable 
             data={news} 
             loading={loading} 
-            onView={(item) => setItemToView(item)}
             onDelete={(item) => setItemToDelete(item)} 
           />
           <NewsCard 
             data={news} 
             loading={loading} 
-            onView={(item) => setItemToView(item)}
             onDelete={(item) => setItemToDelete(item)} 
           />
           
@@ -159,19 +154,6 @@ export const NewsPage = () => {
         serverError={serverError}
         onConfirm={handleConfirmDelete}
         onCancel={() => setItemToDelete(null)}
-      />
-
-      <ViewDetailsModal
-        open={!!itemToView}
-        title="News Details"
-        image={itemToView?.thumbnail_url ? (import.meta.env.VITE_API_URL.replace('/api/v1', '') + itemToView.thumbnail_url) : null}
-        fields={itemToView ? [
-          { label: 'Title', value: itemToView.title, fullWidth: true },
-          { label: 'Content', value: itemToView.content, fullWidth: true },
-          { label: 'Created At', value: formatDate(itemToView.created_at) },
-          { label: 'Updated At', value: formatDate(itemToView.updated_at) },
-        ] : []}
-        onClose={() => setItemToView(null)}
       />
     </div>
   );

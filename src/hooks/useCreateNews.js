@@ -28,7 +28,10 @@ export const useCreateNews = () => {
       
       // If the backend returns validation errors as an array (e.g. from express-validator)
       if (err.data && err.data.errors && Array.isArray(err.data.errors)) {
-        const messages = err.data.errors.map(e => Object.values(e)[0]).join(', ');
+        const messages = err.data.errors.map(e => {
+          if (typeof e === 'string') return e;
+          return Object.values(e)[0];
+        }).join(', ');
         setError(messages || 'Validation failed.');
       } else {
         setError(err.message || 'An error occurred while creating news.');

@@ -71,10 +71,10 @@ export const NewsForm = ({
         control={control}
         name="thumbnail"
         render={({ field: { value, onChange } }) => (
-          <ImageUpload
+        <ImageUpload
             label="Thumbnail (Optional)"
             value={value}
-            previewUrl={previewUrl}
+            previewUrl={value === null ? null : previewUrl}
             onChange={(file) => setValue('thumbnail', file, { shouldValidate: true })}
             onRemove={() => setValue('thumbnail', null, { shouldValidate: true })}
             disabled={loading}

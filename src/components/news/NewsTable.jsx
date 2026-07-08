@@ -55,12 +55,12 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
                 {formatDate(item.updated_at)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
-                <button 
-                  onClick={() => onView(item)}
+                <Link 
+                  to={`/news/${item.id}`}
                   className="text-blue-600 hover:text-blue-900 font-medium"
                 >
                   View
-                </button>
+                </Link>
                 <Link to={`/news/${item.id}/edit`} className="text-indigo-600 hover:text-indigo-900 font-medium">Edit</Link>
                 <button 
                   onClick={() => onDelete(item)}

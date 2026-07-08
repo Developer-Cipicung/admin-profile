@@ -97,7 +97,7 @@ export const ProductForm = ({
             <ImageUpload
               label="Product Image (Optional)"
               value={value}
-              previewUrl={previewUrl}
+              previewUrl={value === null ? null : previewUrl}
               onChange={(file) => setValue('image', file, { shouldValidate: true })}
               onRemove={() => setValue('image', null, { shouldValidate: true })}
               disabled={loading}

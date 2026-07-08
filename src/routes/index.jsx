@@ -9,6 +9,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { NewsPage } from '../pages/news/NewsPage';
 import { CreateNewsPage } from '../pages/news/CreateNewsPage';
 import { EditNewsPage } from '../pages/news/EditNewsPage';
+import { ViewNewsPage } from '../pages/news/ViewNewsPage';
 import { ProductPage } from '../pages/products/ProductPage';
 import { CreateProductPage } from '../pages/products/CreateProductPage';
 import { EditProductPage } from '../pages/products/EditProductPage';
@@ -29,6 +30,7 @@ export const AppRoutes = () => {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/create" element={<CreateNewsPage />} />
+          <Route path="/news/:id" element={<ViewNewsPage />} />
           <Route path="/news/:id/edit" element={<EditNewsPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/products/create" element={<CreateProductPage />} />
