@@ -17,19 +17,19 @@ export const AdministratorTable = ({ data, loading, onView, onDelete, currentUse
         <thead className="bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Username
+              Nama Pengguna
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Full Name
+              Nama Lengkap
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Created At
+              Dibuat Pada
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Updated At
+              Diperbarui Pada
             </th>
             <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
+              Aksi
             </th>
           </tr>
         </thead>
@@ -43,7 +43,7 @@ export const AdministratorTable = ({ data, loading, onView, onDelete, currentUse
                   {item.username}
                   {isCurrentUser && (
                     <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                      (You)
+                      (Anda)
                     </span>
                   )}
                 </td>
@@ -61,18 +61,18 @@ export const AdministratorTable = ({ data, loading, onView, onDelete, currentUse
                     onClick={() => onView(item)}
                     className="text-blue-600 hover:text-blue-900 font-medium"
                   >
-                    View
+                    Lihat
                   </button>
                   {isCurrentUser ? (
-                    <span className="text-gray-400 font-medium cursor-not-allowed text-xs uppercase tracking-wider" title="Cannot delete yourself">
-                      Delete
+                    <span className="text-gray-400 font-medium cursor-not-allowed text-xs uppercase tracking-wider" title="Tidak dapat menghapus diri sendiri">
+                      Hapus
                     </span>
                   ) : (
                     <button 
                       onClick={() => onDelete(item)}
                       className="text-red-600 hover:text-red-900 font-medium"
                     >
-                      Delete
+                      Hapus
                     </button>
                   )}
                 </td>

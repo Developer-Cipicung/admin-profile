@@ -18,19 +18,19 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
         <thead className="bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-24">
-              Image
+              Gambar
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Title
+              Judul
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Created At
+              Dibuat Pada
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Updated At
+              Diperbarui Pada
             </th>
             <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
+              Aksi
             </th>
           </tr>
         </thead>
@@ -59,14 +59,14 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
                   to={`/news/${item.id}`}
                   className="text-blue-600 hover:text-blue-900 font-medium"
                 >
-                  View
+                  Lihat
                 </Link>
                 <Link to={`/news/${item.id}/edit`} className="text-indigo-600 hover:text-indigo-900 font-medium">Edit</Link>
                 <button 
                   onClick={() => onDelete(item)}
                   className="text-red-600 hover:text-red-900 font-medium"
                 >
-                  Delete
+                  Hapus
                 </button>
               </td>
             </tr>

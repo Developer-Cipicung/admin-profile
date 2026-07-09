@@ -145,13 +145,13 @@ export const PopulationSourcesPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-bold text-gray-900">Population Sources</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Sumber Data Penduduk</h2>
         <Button onClick={() => {
           setSelectedSource(null);
           setActionError(null);
           setIsFormOpen(true);
         }}>
-          Add Source
+          Tambah Sumber
         </Button>
       </div>
 
@@ -167,9 +167,9 @@ export const PopulationSourcesPage = () => {
             <span className="sr-only">Close</span>
             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
           </button>
-          <h3 className="text-green-800 font-medium">Crawl completed successfully!</h3>
+          <h3 className="text-green-800 font-medium">Berhasil menarik data!</h3>
           <div className="mt-2 text-sm text-green-700 grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <p><strong>Months Processed:</strong> {crawlSummary.months_processed}</p>
+            <p><strong>Bulan Diproses:</strong> {crawlSummary.months_processed}</p>
             <p><strong>Status:</strong> {crawlSummary.message}</p>
           </div>
         </div>
@@ -177,7 +177,7 @@ export const PopulationSourcesPage = () => {
 
       <FilterToolbar
         onFilterChange={handleFilterChange}
-        searchPlaceholder="Search sources..."
+        searchPlaceholder="Cari sumber data..."
         sortOptions={sortOptions}
         defaultSortBy="created_at"
         defaultSortOrder="desc"
@@ -189,9 +189,9 @@ export const PopulationSourcesPage = () => {
         </div>
       ) : sources.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-medium text-gray-900">No sources found</h3>
+          <h3 className="text-lg font-medium text-gray-900">Belum ada sumber data</h3>
           <p className="mt-1 text-sm text-gray-500">
-            {search ? 'Try adjusting your search terms.' : 'Get started by creating a new population spreadsheet source.'}
+            {search ? 'Coba gunakan kata kunci pencarian lain.' : 'Mulai dengan menambahkan link spreadsheet penduduk baru.'}
           </p>
         </div>
       ) : (
@@ -235,7 +235,7 @@ export const PopulationSourcesPage = () => {
       <Modal
         open={isFormOpen}
         onClose={() => !isSubmitting && setIsFormOpen(false)}
-        title={selectedSource ? 'Edit Source' : 'Create Source'}
+        title={selectedSource ? 'Edit Sumber Data' : 'Tambah Sumber Data'}
       >
         {actionError && (
           <div className="mb-4 bg-red-50 p-3 rounded-md">
@@ -255,8 +255,8 @@ export const PopulationSourcesPage = () => {
         open={isDeleteOpen}
         onClose={() => !isSubmitting && setIsDeleteOpen(false)}
         onConfirm={handleDeleteConfirm}
-        title="Delete Population Source"
-        message={`Are you sure you want to delete "${selectedSource?.name}"? This action cannot be undone.`}
+        title="Hapus Sumber Data"
+        message={`Apakah Anda yakin ingin menghapus "${selectedSource?.name}"? Tindakan ini tidak dapat dibatalkan.`}
         isDeleting={isSubmitting}
         error={actionError}
       />
@@ -265,14 +265,14 @@ export const PopulationSourcesPage = () => {
       <Modal
         open={isActivateOpen}
         onClose={() => !isSubmitting && setIsActivateOpen(false)}
-        title="Activate Source"
+        title="Aktifkan Sumber Data"
       >
         <div className="space-y-4">
           <p className="text-sm text-gray-700">
-            Are you sure you want to activate <strong>{selectedSource?.name}</strong>?
+            Apakah Anda yakin ingin mengaktifkan <strong>{selectedSource?.name}</strong>?
           </p>
           <p className="text-sm text-gray-500">
-            This will automatically deactivate the currently active source. The crawler will use this source for all future data imports.
+            Ini akan menonaktifkan sumber data yang sedang aktif saat ini. Sistem akan menggunakan sumber data ini untuk sinkronisasi berikutnya.
           </p>
           {actionError && (
             <div className="bg-red-50 p-3 rounded-md">
@@ -281,10 +281,10 @@ export const PopulationSourcesPage = () => {
           )}
           <div className="flex justify-end space-x-3 pt-4">
             <Button type="button" variant="outline" onClick={() => setIsActivateOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button type="button" onClick={handleActivateConfirm} isLoading={isSubmitting}>
-              Activate
+              Aktifkan
             </Button>
           </div>
         </div>
@@ -294,14 +294,14 @@ export const PopulationSourcesPage = () => {
       <Modal
         open={isCrawlOpen}
         onClose={() => !isCrawling && setIsCrawlOpen(false)}
-        title="Crawl Population Data"
+        title="Tarik Data Penduduk"
       >
         <div className="space-y-4">
           <p className="text-sm text-gray-700">
-            Import the latest population data from <strong>{selectedSource?.name}</strong>?
+            Tarik data penduduk terbaru dari <strong>{selectedSource?.name}</strong>?
           </p>
           <p className="text-sm text-gray-500">
-            This action will parse the <strong>"{selectedSource?.worksheet_name || 'CIPICUNG'}"</strong> worksheet and automatically sync all available monthly data into the database.
+            Tindakan ini akan membaca worksheet <strong>"{selectedSource?.worksheet_name || 'CIPICUNG'}"</strong> dan otomatis menyinkronkan seluruh data bulanan ke database.
           </p>
           {actionError && (
             <div className="bg-red-50 p-3 rounded-md">
@@ -310,10 +310,10 @@ export const PopulationSourcesPage = () => {
           )}
           <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
             <Button type="button" variant="outline" onClick={() => setIsCrawlOpen(false)} disabled={isCrawling}>
-              Cancel
+              Batal
             </Button>
             <Button type="button" onClick={handleCrawlConfirm} isLoading={isCrawling}>
-              Start Crawl
+              Mulai Tarik Data
             </Button>
           </div>
         </div>
@@ -323,7 +323,7 @@ export const PopulationSourcesPage = () => {
       <ViewDetailsModal
         open={isViewOpen}
         onClose={() => setIsViewOpen(false)}
-        title="Source Details"
+        title="Detail Sumber Data"
         fields={viewFields}
       />
     </div>

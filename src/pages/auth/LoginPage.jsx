@@ -25,7 +25,7 @@ export const LoginPage = () => {
         navigate('/dashboard');
       }
     } catch (error) {
-      setErrorMessage(error.message || 'An unexpected error occurred.');
+      setErrorMessage(error.message || 'Terjadi kesalahan tidak terduga.');
     } finally {
       setLoginLoading(false);
     }
@@ -34,7 +34,7 @@ export const LoginPage = () => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">Sign in to your account</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Masuk ke Akun Anda</h2>
       </div>
       
       {errorMessage && (
@@ -48,17 +48,17 @@ export const LoginPage = () => {
           label="Username"
           id="username"
           type="text"
-          {...register('username', { required: 'Username is required' })}
+          {...register('username', { required: 'Username wajib diisi' })}
           error={errors.username?.message}
           disabled={loginLoading}
         />
 
         <div className="relative">
           <Input
-            label="Password"
+            label="Kata Sandi"
             id="password"
             type={showPassword ? "text" : "password"}
-            {...register('password', { required: 'Password is required' })}
+            {...register('password', { required: 'Kata sandi wajib diisi' })}
             error={errors.password?.message}
             disabled={loginLoading}
           />
@@ -68,7 +68,7 @@ export const LoginPage = () => {
             onClick={() => setShowPassword(!showPassword)}
             disabled={loginLoading}
           >
-            {showPassword ? 'Hide' : 'Show'}
+            {showPassword ? 'Sembunyikan' : 'Tampilkan'}
           </button>
         </div>
 
@@ -77,7 +77,7 @@ export const LoginPage = () => {
           className="w-full"
           isLoading={loginLoading}
         >
-          Sign in
+          Masuk
         </Button>
       </form>
     </div>

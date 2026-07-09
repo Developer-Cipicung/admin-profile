@@ -21,19 +21,19 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Product
+                Produk
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Price
+                Harga
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Created At
+                Dibuat Pada
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Updated At
+                Diperbarui Pada
               </th>
               <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                Aksi
               </th>
             </tr>
           </thead>
@@ -70,7 +70,7 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                     onClick={() => onView(item)}
                     className="text-blue-600 hover:text-blue-900 font-medium"
                   >
-                    View
+                    Lihat
                   </button>
                   <button 
                     onClick={() => navigate(`/products/${item.id}/edit`)}
@@ -82,7 +82,7 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                     onClick={() => onDelete(item)}
                     className="text-red-600 hover:text-red-900 font-medium"
                   >
-                    Delete
+                    Hapus
                   </button>
                 </td>
               </tr>

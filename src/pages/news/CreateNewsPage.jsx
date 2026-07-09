@@ -10,7 +10,7 @@ export const CreateNewsPage = () => {
   const handleSubmit = async (data) => {
     const result = await submitNews(data);
     if (result) {
-      navigate('/news', { state: { successMessage: 'News created successfully.' } });
+      navigate('/news', { state: { successMessage: 'Berita berhasil dibuat.' } });
     }
   };
 
@@ -28,8 +28,8 @@ export const CreateNewsPage = () => {
           </svg>
         </button>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Create News</h2>
-          <p className="mt-1 text-sm text-gray-500">Publish a new article to the village portal.</p>
+          <h2 className="text-2xl font-bold text-gray-900">Buat Berita</h2>
+          <p className="mt-1 text-sm text-gray-500">Publikasikan artikel baru ke portal desa.</p>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ export const CreateNewsPage = () => {
         <NewsForm 
           loading={loading}
           serverError={error}
-          submitLabel="Publish News"
+          submitLabel="Publikasikan Berita"
           onSubmit={handleSubmit}
         />
       </div>

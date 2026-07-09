@@ -14,20 +14,20 @@ export const Pagination = ({ pagination, onPageChange, disabled }) => {
           onClick={() => onPageChange(page - 1)}
           disabled={!hasPrevious || disabled}
         >
-          Previous
+          Sebelumnya
         </Button>
         <Button
           variant="secondary"
           onClick={() => onPageChange(page + 1)}
           disabled={!hasNext || disabled}
         >
-          Next
+          Selanjutnya
         </Button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Page <span className="font-medium">{page}</span> of <span className="font-medium">{totalPages}</span>
+            Halaman <span className="font-medium">{page}</span> dari <span className="font-medium">{totalPages}</span>
           </p>
         </div>
         <div className="flex space-x-2">
@@ -36,14 +36,14 @@ export const Pagination = ({ pagination, onPageChange, disabled }) => {
             onClick={() => onPageChange(page - 1)}
             disabled={!hasPrevious || disabled}
           >
-            Previous
+            Sebelumnya
           </Button>
           <Button
             variant="secondary"
             onClick={() => onPageChange(page + 1)}
             disabled={!hasNext || disabled}
           >
-            Next
+            Selanjutnya
           </Button>
         </div>
       </div>

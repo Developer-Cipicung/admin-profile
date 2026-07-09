@@ -5,7 +5,7 @@ import { RefreshButton } from './RefreshButton';
 export const FilterToolbar = ({
   searchValue,
   onSearchChange,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = 'Cari...',
   sortValue,
   onSortChange,
   sortOptions = [],

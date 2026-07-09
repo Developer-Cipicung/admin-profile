@@ -32,21 +32,21 @@ export const ProductForm = ({
       
       {serverError && (
         <div className="p-4 rounded-md bg-red-50 border border-red-200">
-          <h3 className="text-sm font-medium text-red-800">Submission Error</h3>
+          <h3 className="text-sm font-medium text-red-800">Kesalahan Pengiriman</h3>
           <p className="mt-1 text-sm text-red-600">{serverError}</p>
         </div>
       )}
 
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-          Product Name <span className="text-red-500">*</span>
+          Nama Produk <span className="text-red-500">*</span>
         </label>
         <Input
           id="name"
           disabled={loading}
           {...register('name', { 
-            required: 'Product name is required',
-            maxLength: { value: 255, message: 'Name cannot exceed 255 characters' }
+            required: 'Nama produk wajib diisi',
+            maxLength: { value: 255, message: 'Nama tidak boleh lebih dari 255 karakter' }
           })}
         />
         {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
@@ -54,15 +54,15 @@ export const ProductForm = ({
 
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-          Description <span className="text-red-500">*</span>
+          Deskripsi <span className="text-red-500">*</span>
         </label>
         <Textarea
           id="description"
           rows={4}
           disabled={loading}
           {...register('description', { 
-            required: 'Description is required',
-            maxLength: { value: 255, message: 'Description cannot exceed 255 characters' }
+            required: 'Deskripsi wajib diisi',
+            maxLength: { value: 255, message: 'Deskripsi tidak boleh lebih dari 255 karakter' }
           })}
         />
         {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
@@ -70,7 +70,7 @@ export const ProductForm = ({
 
       <div>
         <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-          Price (Rp) <span className="text-red-500">*</span>
+          Harga (Rp) <span className="text-red-500">*</span>
         </label>
         <Input
           id="price"
@@ -80,10 +80,10 @@ export const ProductForm = ({
           disabled={loading}
           placeholder="e.g. 35000"
           {...register('price', { 
-            required: 'Price is required',
+            required: 'Harga wajib diisi',
             valueAsNumber: true,
-            min: { value: 1, message: 'Price must be greater than 0' },
-            validate: (value) => Number.isInteger(value) || 'Price must be a whole number (no decimals)'
+            min: { value: 1, message: 'Harga harus lebih besar dari 0' },
+            validate: (value) => Number.isInteger(value) || 'Harga harus berupa bilangan bulat'
           })}
         />
         {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>}
@@ -95,7 +95,7 @@ export const ProductForm = ({
         render={({ field: { value, onChange } }) => (
           <div className="sm:col-span-2 pt-2">
             <ImageUpload
-              label="Product Image (Optional)"
+              label="Gambar Produk (Opsional)"
               value={value}
               previewUrl={value === null ? null : previewUrl}
               onChange={(file) => setValue('image', file, { shouldValidate: true })}
@@ -113,7 +113,7 @@ export const ProductForm = ({
           isLoading={loading}
           disabled={loading}
         >
-          {loading ? 'Submitting...' : submitLabel}
+          {loading ? 'Menyimpan...' : submitLabel}
         </Button>
       </div>
     </form>

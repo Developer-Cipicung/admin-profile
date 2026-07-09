@@ -118,7 +118,7 @@ export const PopulationHistoryPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Population History & Analytics</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Riwayat & Analitik Penduduk</h2>
       </div>
 
       {error && (
@@ -132,7 +132,7 @@ export const PopulationHistoryPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="col-span-1 lg:col-span-2">
             <CardBody className="p-4 h-80">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Total Population Trend</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Tren Total Penduduk</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -148,7 +148,7 @@ export const PopulationHistoryPage = () => {
 
           <Card>
             <CardBody className="p-4 h-80">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Births vs Deaths</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Kelahiran vs Kematian</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -165,7 +165,7 @@ export const PopulationHistoryPage = () => {
 
           <Card>
             <CardBody className="p-4 h-80">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Move In vs Move Out</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Pindah Masuk vs Keluar</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -184,7 +184,7 @@ export const PopulationHistoryPage = () => {
 
       <FilterToolbar
         onFilterChange={handleFilterChange}
-        searchPlaceholder="Search history..."
+        searchPlaceholder="Cari riwayat..."
         sortOptions={sortOptions}
         defaultSortBy="year"
         defaultSortOrder="desc"
@@ -196,9 +196,9 @@ export const PopulationHistoryPage = () => {
         </div>
       ) : history.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-medium text-gray-900">No historical data</h3>
+          <h3 className="text-lg font-medium text-gray-900">Belum ada riwayat data</h3>
           <p className="mt-1 text-sm text-gray-500">
-            Crawl a population source to generate historical snapshots.
+            Tarik sumber data penduduk (Crawl) untuk menghasilkan riwayat data bulanan.
           </p>
         </div>
       ) : (
@@ -237,8 +237,8 @@ export const PopulationHistoryPage = () => {
         open={isDeleteOpen}
         onCancel={() => !isSubmitting && setIsDeleteOpen(false)}
         onConfirm={handleDeleteConfirm}
-        title="Delete Snapshot"
-        message={`Are you sure you want to delete the snapshot for ${selectedSnapshot?.month}/${selectedSnapshot?.year}? This will also delete all RT/RW details. This action cannot be undone.`}
+        title="Hapus Riwayat"
+        message={`Apakah Anda yakin ingin menghapus data bulan ${selectedSnapshot?.month}/${selectedSnapshot?.year}? Ini juga akan menghapus seluruh rincian RT/RW. Tindakan ini tidak dapat dibatalkan.`}
         isDeleting={isSubmitting}
         error={actionError}
       />
@@ -247,7 +247,7 @@ export const PopulationHistoryPage = () => {
       <ViewDetailsModal
         open={isViewOpen}
         onClose={() => setIsViewOpen(false)}
-        title="Snapshot Details"
+        title="Detail Riwayat Data"
         fields={viewFields}
       >
         {detailsLoading ? (
@@ -256,7 +256,7 @@ export const PopulationHistoryPage = () => {
           </div>
         ) : snapshotDetails && snapshotDetails.length > 0 ? (
           <div className="mt-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-2">RT/RW Breakdown</h4>
+            <h4 className="text-sm font-semibold text-gray-900 mb-2">Rincian RT/RW</h4>
             <div className="overflow-x-auto border border-gray-200 rounded-md max-h-64 overflow-y-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50 sticky top-0">
@@ -264,10 +264,10 @@ export const PopulationHistoryPage = () => {
                     <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RW</th>
                     <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RT</th>
                     <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Pop</th>
-                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Birth</th>
-                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Death</th>
-                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">In</th>
-                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Out</th>
+                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Lahir</th>
+                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Mati</th>
+                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Masuk</th>
+                    <th scope="col" className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Keluar</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -287,7 +287,7 @@ export const PopulationHistoryPage = () => {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-gray-500 mt-4">No detailed RT/RW breakdown found for this snapshot.</p>
+          <p className="text-sm text-gray-500 mt-4">Tidak ada rincian RT/RW untuk riwayat data ini.</p>
         )}
       </ViewDetailsModal>
     </div>

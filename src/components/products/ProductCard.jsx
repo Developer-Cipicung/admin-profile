@@ -35,17 +35,17 @@ export const ProductCard = ({ data, loading, onView, onDelete }) => {
             </div>
             <p className="text-sm text-gray-600 line-clamp-2 mb-4">{item.description}</p>
             <div className="flex justify-between text-xs text-gray-500 mb-1">
-              <span>Created: {formatDate(item.created_at)}</span>
+              <span>Dibuat: {formatDate(item.created_at)}</span>
             </div>
             <div className="flex justify-between text-xs text-gray-500">
-              <span>Updated: {formatDate(item.updated_at)}</span>
+              <span>Diperbarui: {formatDate(item.updated_at)}</span>
             </div>
             <div className="mt-4 flex justify-end space-x-3 pt-3 border-t border-gray-100">
               <button 
                 onClick={() => onView(item)}
                 className="text-xs font-medium text-blue-600"
               >
-                View
+                Lihat
               </button>
               <button 
                 onClick={() => navigate(`/products/${item.id}/edit`)}
@@ -57,7 +57,7 @@ export const ProductCard = ({ data, loading, onView, onDelete }) => {
                 onClick={() => onDelete(item)}
                 className="text-xs font-medium text-red-600"
               >
-                Delete
+                Hapus
               </button>
             </div>
           </CardBody>

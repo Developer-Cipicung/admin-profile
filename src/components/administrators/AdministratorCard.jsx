@@ -25,7 +25,7 @@ export const AdministratorCard = ({ data, loading, onView, onDelete, currentUser
                   <h3 className="text-lg font-bold text-gray-900">{item.username}</h3>
                   {isCurrentUser && (
                     <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                      (You)
+                      (Anda)
                     </span>
                   )}
                 </div>
@@ -34,25 +34,25 @@ export const AdministratorCard = ({ data, loading, onView, onDelete, currentUser
               
               <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
                 <span className="text-xs text-gray-500">
-                  Created: {formatDate(item.created_at)}
+                  Dibuat: {formatDate(item.created_at)}
                 </span>
                 <div className="flex space-x-4">
                   <button 
                     onClick={() => onView(item)}
                     className="text-xs font-medium text-blue-600"
                   >
-                    View
+                    Lihat
                   </button>
                   {isCurrentUser ? (
                     <span className="text-xs font-medium text-gray-400 uppercase tracking-wider cursor-not-allowed">
-                      Delete
+                      Hapus
                     </span>
                   ) : (
                     <button 
                       onClick={() => onDelete(item)}
                       className="text-xs font-medium text-red-600"
                     >
-                      Delete
+                      Hapus
                     </button>
                   )}
                 </div>

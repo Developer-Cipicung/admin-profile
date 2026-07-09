@@ -44,7 +44,7 @@ export const AdministratorPage = () => {
     
     const success = await deleteAdministrator(itemToDelete.id);
     if (success) {
-      setSuccessMsg(`Administrator "${itemToDelete.username}" was successfully deleted.`);
+      setSuccessMsg(`Admin "${itemToDelete.username}" berhasil dihapus.`);
       setItemToDelete(null);
       
       handlePaginationAfterDelete({
@@ -86,11 +86,11 @@ export const AdministratorPage = () => {
     <div className="space-y-6 relative">
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Administrator Management</h2>
-          <p className="mt-1 text-sm text-gray-500">Manage dashboard administrators and access.</p>
+          <h2 className="text-2xl font-bold text-gray-900">Manajemen Admin</h2>
+          <p className="mt-1 text-sm text-gray-500">Kelola admin dashboard dan aksesnya.</p>
         </div>
         <div className="mt-4 sm:mt-0 flex gap-2">
-          <Button onClick={() => navigate('/administrators/create')} variant="primary">Create Administrator</Button>
+          <Button onClick={() => navigate('/administrators/create')} variant="primary">Buat Admin</Button>
         </div>
       </div>
 
@@ -104,7 +104,7 @@ export const AdministratorPage = () => {
       )}
 
       <FilterToolbar
-        searchPlaceholder="Search administrators..."
+        searchPlaceholder="Cari admin..."
         searchValue={searchInput}
         onSearchChange={handleSearchChange}
         sortValue={filters.sort}
@@ -117,15 +117,15 @@ export const AdministratorPage = () => {
       {error ? (
         <div className="bg-red-50 p-6 rounded-lg border border-red-200 flex flex-col items-center justify-center text-center">
           <p className="text-red-800 font-medium mb-2">{error}</p>
-          <Button variant="secondary" onClick={refresh}>Try Again</Button>
+          <Button variant="secondary" onClick={refresh}>Coba Lagi</Button>
         </div>
       ) : isEmpty ? (
         <div className="bg-white p-12 rounded-lg border border-gray-200 flex flex-col items-center justify-center text-center">
           <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <h3 className="text-lg font-medium text-gray-900 mb-1">No administrators found</h3>
-          <p className="text-gray-500">Try adjusting your search filters.</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">Admin tidak ditemukan</h3>
+          <p className="text-gray-500">Coba sesuaikan filter pencarian Anda.</p>
         </div>
       ) : (
         <>
@@ -158,8 +158,8 @@ export const AdministratorPage = () => {
 
       <DeleteConfirmationModal
         open={!!itemToDelete}
-        title="Delete Administrator"
-        message={itemToDelete ? `Are you sure you want to delete administrator "${itemToDelete.username}"? This action cannot be undone.` : ''}
+        title="Hapus Admin"
+        message={itemToDelete ? `Apakah Anda yakin ingin menghapus admin "${itemToDelete.username}"? Tindakan ini tidak dapat dibatalkan.` : ''}
         loading={deleting}
         serverError={serverError}
         onConfirm={handleConfirmDelete}
@@ -168,12 +168,12 @@ export const AdministratorPage = () => {
 
       <ViewDetailsModal
         open={!!itemToView}
-        title="Administrator Details"
+        title="Detail Admin"
         fields={itemToView ? [
-          { label: 'Username', value: itemToView.username, fullWidth: true },
-          { label: 'Full Name', value: itemToView.full_name, fullWidth: true },
-          { label: 'Created At', value: formatDate(itemToView.created_at) },
-          { label: 'Updated At', value: formatDate(itemToView.updated_at) },
+          { label: 'Nama Pengguna', value: itemToView.username, fullWidth: true },
+          { label: 'Nama Lengkap', value: itemToView.full_name, fullWidth: true },
+          { label: 'Dibuat Pada', value: formatDate(itemToView.created_at) },
+          { label: 'Diperbarui Pada', value: formatDate(itemToView.updated_at) },
         ] : []}
         onClose={() => setItemToView(null)}
       />

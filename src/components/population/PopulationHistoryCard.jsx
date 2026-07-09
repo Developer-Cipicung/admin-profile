@@ -9,31 +9,31 @@ export const PopulationHistoryCard = ({ snapshot, onView, onDelete, latestSnapsh
       <CardBody className="p-4">
         <div className="flex justify-between items-start mb-2">
           <div>
-            <h3 className="text-lg font-medium text-gray-900 truncate">Snapshot {snapshot.month}/{snapshot.year}</h3>
-            <p className="text-sm text-gray-500 truncate mt-1">{snapshot.source?.name || 'Unknown Source'}</p>
+            <h3 className="text-lg font-medium text-gray-900 truncate">Data {snapshot.month}/{snapshot.year}</h3>
+            <p className="text-sm text-gray-500 truncate mt-1">{snapshot.source?.name || 'Sumber Tidak Diketahui'}</p>
           </div>
           <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
             netGrowth > 0 ? 'bg-green-100 text-green-800' : netGrowth < 0 ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
           }`}>
-            {netGrowth > 0 ? '+' : ''}{netGrowth} Net
+            {netGrowth > 0 ? '+' : ''}{netGrowth} Bersih
           </span>
         </div>
         
         <div className="mt-4 space-y-2 text-sm text-gray-600">
           <div className="flex justify-between">
-            <span>Total Population:</span>
+            <span>Total Penduduk:</span>
             <span className="font-bold text-gray-900">{snapshot.current_population}</span>
           </div>
           <div className="flex justify-between">
-            <span>Births / Move In:</span>
+            <span>Lahir / Masuk:</span>
             <span className="font-medium text-green-600">+{snapshot.birth_total} / +{snapshot.move_in_total}</span>
           </div>
           <div className="flex justify-between">
-            <span>Deaths / Move Out:</span>
+            <span>Mati / Keluar:</span>
             <span className="font-medium text-red-600">-{snapshot.death_total} / -{snapshot.move_out_total}</span>
           </div>
           <div className="flex justify-between">
-            <span>Imported At:</span>
+            <span>Waktu Tarik:</span>
             <span className="font-medium text-gray-900">{formatDate(snapshot.imported_at)}</span>
           </div>
         </div>
@@ -43,7 +43,7 @@ export const PopulationHistoryCard = ({ snapshot, onView, onDelete, latestSnapsh
             onClick={() => onView(snapshot)}
             className="text-blue-600 hover:text-blue-900 font-medium"
           >
-            View
+            Lihat
           </button>
           <button
             onClick={() => onDelete(snapshot)}
@@ -55,7 +55,7 @@ export const PopulationHistoryCard = ({ snapshot, onView, onDelete, latestSnapsh
             }`}
             title={snapshot.id === latestSnapshotId ? "The latest snapshot cannot be deleted" : "Delete snapshot"}
           >
-            Delete
+            Hapus
           </button>
         </div>
       </CardBody>

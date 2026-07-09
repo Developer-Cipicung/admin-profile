@@ -32,21 +32,21 @@ export const NewsForm = ({
       
       {serverError && (
         <div className="p-4 rounded-md bg-red-50 border border-red-200">
-          <h3 className="text-sm font-medium text-red-800">Submission Error</h3>
+          <h3 className="text-sm font-medium text-red-800">Kesalahan Pengiriman</h3>
           <p className="mt-1 text-sm text-red-600">{serverError}</p>
         </div>
       )}
 
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-          Title <span className="text-red-500">*</span>
+          Judul <span className="text-red-500">*</span>
         </label>
         <Input
           id="title"
           disabled={loading}
           {...register('title', { 
-            required: 'Title is required',
-            maxLength: { value: 255, message: 'Title cannot exceed 255 characters' }
+            required: 'Judul wajib diisi',
+            maxLength: { value: 255, message: 'Judul tidak boleh lebih dari 255 karakter' }
           })}
         />
         {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
@@ -54,14 +54,14 @@ export const NewsForm = ({
 
       <div>
         <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-          Content <span className="text-red-500">*</span>
+          Konten <span className="text-red-500">*</span>
         </label>
         <Textarea
           id="content"
           rows={8}
           disabled={loading}
           {...register('content', { 
-            required: 'Content is required'
+            required: 'Konten wajib diisi'
           })}
         />
         {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
@@ -72,7 +72,7 @@ export const NewsForm = ({
         name="thumbnail"
         render={({ field: { value, onChange } }) => (
         <ImageUpload
-            label="Thumbnail (Optional)"
+            label="Gambar Utama (Opsional)"
             value={value}
             previewUrl={value === null ? null : previewUrl}
             onChange={(file) => setValue('thumbnail', file, { shouldValidate: true })}
@@ -89,7 +89,7 @@ export const NewsForm = ({
           isLoading={loading}
           disabled={loading}
         >
-          {loading ? 'Submitting...' : submitLabel}
+          {loading ? 'Menyimpan...' : submitLabel}
         </Button>
       </div>
     </form>

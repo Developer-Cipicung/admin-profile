@@ -10,7 +10,7 @@ export const CreateProductPage = () => {
   const handleSubmit = async (data) => {
     const response = await createProduct(data);
     if (response.success) {
-      navigate('/products', { state: { successMessage: 'Product created successfully.' } });
+      navigate('/products', { state: { successMessage: 'Produk berhasil dibuat.' } });
     }
   };
 
@@ -20,15 +20,15 @@ export const CreateProductPage = () => {
         <button 
           onClick={() => navigate('/products')}
           className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-          title="Back to Products"
+          title="Kembali ke Produk"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Create Product</h2>
-          <p className="mt-1 text-sm text-gray-500">Add a new UMKM product to the catalog.</p>
+          <h2 className="text-2xl font-bold text-gray-900">Buat Produk</h2>
+          <p className="mt-1 text-sm text-gray-500">Tambah produk UMKM baru ke katalog.</p>
         </div>
       </div>
 
@@ -36,7 +36,7 @@ export const CreateProductPage = () => {
         onSubmit={handleSubmit}
         loading={loading}
         serverError={serverError}
-        submitLabel="Create Product"
+        submitLabel="Buat Produk"
       />
     </div>
   );

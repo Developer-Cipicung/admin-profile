@@ -16,11 +16,11 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Input
-        label="Spreadsheet Name"
+        label="Nama Spreadsheet"
         id="name"
-        {...register('name', { required: 'Spreadsheet Name is required' })}
+        {...register('name', { required: 'Nama Spreadsheet wajib diisi' })}
         error={errors.name?.message}
-        placeholder="e.g. 2026 Population Data"
+        placeholder="misal. Data Penduduk 2026"
       />
 
       <Input
@@ -28,10 +28,10 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
         id="spreadsheet_url"
         type="url"
         {...register('spreadsheet_url', { 
-          required: 'Spreadsheet URL is required',
+          required: 'URL Spreadsheet wajib diisi',
           pattern: {
             value: /^https:\/\/docs\.google\.com\/spreadsheets\/d\/.+/,
-            message: 'Must be a valid Google Spreadsheet URL'
+            message: 'Harus berupa URL Google Spreadsheet yang valid'
           }
         })}
         error={errors.spreadsheet_url?.message}
@@ -39,11 +39,11 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
       />
 
       <Input
-        label="Worksheet Name"
+        label="Nama Worksheet"
         id="worksheet_name"
-        {...register('worksheet_name', { required: 'Worksheet Name is required' })}
+        {...register('worksheet_name', { required: 'Nama Worksheet wajib diisi' })}
         error={errors.worksheet_name?.message}
-        placeholder="e.g. CIPICUNG"
+        placeholder="misal. CIPICUNG"
       />
 
       <div className="flex items-center">
@@ -54,19 +54,19 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
         />
         <label htmlFor="is_active" className="ml-2 block text-sm text-gray-900">
-          Set as Active Source
+          Jadikan Sumber Aktif
         </label>
       </div>
       <p className="text-xs text-gray-500 ml-6">
-        Activating this source will automatically deactivate the currently active source.
+        Mengaktifkan sumber ini akan otomatis menonaktifkan sumber data yang sedang aktif.
       </p>
 
       <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {initialData ? 'Save Changes' : 'Create Source'}
+          {initialData ? 'Simpan Perubahan' : 'Tambah Sumber'}
         </Button>
       </div>
     </form>

@@ -57,7 +57,7 @@ export const NewsPage = () => {
     
     const success = await deleteNews(itemToDelete.id);
     if (success) {
-      setSuccessMsg(`"${itemToDelete.title}" was successfully deleted.`);
+      setSuccessMsg(`"${itemToDelete.title}" berhasil dihapus.`);
       setItemToDelete(null);
       
       handlePaginationAfterDelete({
@@ -80,11 +80,11 @@ export const NewsPage = () => {
     <div className="space-y-6 relative">
       <div className="sm:flex sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">News Management</h2>
-          <p className="mt-1 text-sm text-gray-500">Manage village news and announcements.</p>
+          <h2 className="text-2xl font-bold text-gray-900">Manajemen Berita</h2>
+          <p className="mt-1 text-sm text-gray-500">Kelola berita dan pengumuman desa.</p>
         </div>
         <div className="mt-4 sm:mt-0 flex gap-2">
-          <Button onClick={() => navigate('/news/create')} variant="primary">Create News</Button>
+          <Button onClick={() => navigate('/news/create')} variant="primary">Buat Berita</Button>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ export const NewsPage = () => {
       )}
 
       <FilterToolbar
-        searchPlaceholder="Search news title..."
+        searchPlaceholder="Cari judul berita..."
         searchValue={searchInput}
         onSearchChange={handleSearchChange}
         sortValue={filters.sort}
@@ -111,15 +111,15 @@ export const NewsPage = () => {
       {error ? (
         <div className="bg-red-50 p-6 rounded-lg border border-red-200 flex flex-col items-center justify-center text-center">
           <p className="text-red-800 font-medium mb-2">{error}</p>
-          <Button variant="secondary" onClick={refresh}>Try Again</Button>
+          <Button variant="secondary" onClick={refresh}>Coba Lagi</Button>
         </div>
       ) : isEmpty ? (
         <div className="bg-white p-12 rounded-lg border border-gray-200 flex flex-col items-center justify-center text-center">
           <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 5H15m-4 4h.01M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <h3 className="text-lg font-medium text-gray-900 mb-1">No news found</h3>
-          <p className="text-gray-500">Try adjusting your search filters or create a new article.</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">Berita tidak ditemukan</h3>
+          <p className="text-gray-500">Coba sesuaikan filter pencarian Anda atau buat berita baru.</p>
         </div>
       ) : (
         <>
@@ -148,8 +148,8 @@ export const NewsPage = () => {
 
       <DeleteConfirmationModal
         open={!!itemToDelete}
-        title="Delete News"
-        message={itemToDelete ? `Are you sure you want to delete "${itemToDelete.title}"? This action cannot be undone.` : ''}
+        title="Hapus Berita"
+        message={itemToDelete ? `Apakah Anda yakin ingin menghapus "${itemToDelete.title}"? Tindakan ini tidak dapat dibatalkan.` : ''}
         loading={deleting}
         serverError={serverError}
         onConfirm={handleConfirmDelete}

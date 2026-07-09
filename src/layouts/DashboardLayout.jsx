@@ -4,14 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 
 const NAVIGATION_ITEMS = [
   { name: 'Dashboard', path: '/dashboard' },
-  { name: 'News', path: '/news' },
-  { name: 'Products', path: '/products' },
-  { name: 'Administrator', path: '/administrators' },
+  { name: 'Berita', path: '/news' },
+  { name: 'Produk', path: '/products' },
+  { name: 'Daftar Admin', path: '/administrators' },
 ];
 
 const POPULATION_ITEMS = [
-  { name: 'Sources', path: '/population/sources' },
-  { name: 'History', path: '/population/history' }
+  { name: 'Sumber Data', path: '/population/sources' },
+  { name: 'Riwayat Penduduk', path: '/population/history' }
 ];
 
 export const DashboardLayout = () => {
@@ -40,7 +40,7 @@ export const DashboardLayout = () => {
         }`}
       >
         <div className="h-16 flex items-center px-6 border-b border-gray-200">
-          <span className="text-xl font-bold text-gray-900">Admin Panel</span>
+          <span className="text-xl font-bold text-gray-900">Admin Desa</span>
         </div>
         
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
@@ -67,7 +67,7 @@ export const DashboardLayout = () => {
               onClick={() => setIsPopulationOpen(!isPopulationOpen)}
               className="w-full flex justify-between items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
             >
-              <span>Population</span>
+              <span>Data Penduduk</span>
               <svg
                 className={`ml-2 h-5 w-5 transform transition-transform ${isPopulationOpen ? 'rotate-90' : ''}`}
                 viewBox="0 0 20 20"
@@ -104,7 +104,7 @@ export const DashboardLayout = () => {
             onClick={handleLogout}
             className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
-            Logout
+            Keluar
           </button>
         </div>
       </aside>
@@ -122,7 +122,7 @@ export const DashboardLayout = () => {
           </button>
           
           <div className="flex-1">
-            <h1 className="text-lg font-semibold text-gray-900 truncate">Administrator Dashboard</h1>
+            <h1 className="text-lg font-semibold text-gray-900 truncate">Dashboard Admin Cipicung</h1>
           </div>
         </header>
 

@@ -5,8 +5,8 @@ export const DeleteConfirmationModal = ({
   open,
   title,
   message,
-  confirmLabel = 'Delete',
-  cancelLabel = 'Cancel',
+  confirmLabel = 'Hapus',
+  cancelLabel = 'Batal',
   loading = false,
   serverError = null,
   onConfirm,
@@ -89,7 +89,7 @@ export const DeleteConfirmationModal = ({
             isLoading={loading}
             disabled={loading}
           >
-            {loading ? 'Deleting...' : confirmLabel}
+            {loading ? 'Menghapus...' : confirmLabel}
           </Button>
           <Button
             type="button"

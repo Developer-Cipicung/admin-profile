@@ -11,7 +11,7 @@ export const CreateAdministratorPage = () => {
     const result = await createAdministrator(data);
     if (result.success) {
       navigate('/administrators', { 
-        state: { successMessage: `Administrator "${data.username}" has been created successfully.` }
+        state: { successMessage: `Admin "${data.username}" berhasil dibuat.` }
       });
     }
   };
@@ -19,9 +19,9 @@ export const CreateAdministratorPage = () => {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Create Administrator</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Buat Admin</h2>
         <p className="mt-1 text-sm text-gray-500">
-          Add a new administrator to the dashboard.
+          Tambah admin baru ke dashboard.
         </p>
       </div>
 
@@ -29,7 +29,7 @@ export const CreateAdministratorPage = () => {
         onSubmit={handleSubmit} 
         loading={loading} 
         serverError={error}
-        submitLabel="Create Administrator"
+        submitLabel="Buat Admin"
       />
     </div>
   );

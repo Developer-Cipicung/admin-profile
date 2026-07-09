@@ -60,7 +60,7 @@ export const ViewDetailsModal = ({
             className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             onClick={onClose}
           >
-            <span className="sr-only">Close</span>
+            <span className="sr-only">Tutup</span>
             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -103,7 +103,7 @@ export const ViewDetailsModal = ({
             onClick={onClose}
             ref={closeRef}
           >
-            Close
+            Tutup
           </Button>
         </div>
       </div>

@@ -10,22 +10,22 @@ export const PopulationHistoryTable = ({ history, onView, onDelete, latestSnapsh
               Snapshot
             </th>
             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Source Name
+              Nama Sumber
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
-              Current Pop
+              Total Pop
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
-              Births / Move In
+              Lahir / Masuk
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
-              Deaths / Move Out
+              Mati / Keluar
             </th>
             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Imported At
+              Waktu Tarik
             </th>
             <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">Aksi</span>
             </th>
           </tr>
         </thead>
@@ -56,7 +56,7 @@ export const PopulationHistoryTable = ({ history, onView, onDelete, latestSnapsh
                     onClick={() => onView(snapshot)}
                     className="text-blue-600 hover:text-blue-900 font-medium"
                   >
-                    View
+                    Lihat
                   </button>
                   <button
                     onClick={() => onDelete(snapshot)}
@@ -68,7 +68,7 @@ export const PopulationHistoryTable = ({ history, onView, onDelete, latestSnapsh
                     }`}
                     title={snapshot.id === latestSnapshotId ? "The latest snapshot cannot be deleted" : "Delete snapshot"}
                   >
-                    Delete
+                    Hapus
                   </button>
                 </div>
               </td>
