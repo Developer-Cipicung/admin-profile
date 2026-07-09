@@ -8,6 +8,7 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
     defaultValues: {
       name: initialData?.name || '',
       spreadsheet_url: initialData?.spreadsheet_url || '',
+      worksheet_name: initialData?.worksheet_name || 'CIPICUNG',
       is_active: initialData?.is_active || false,
     }
   });
@@ -35,6 +36,14 @@ export const PopulationSourceForm = ({ initialData, onSubmit, onCancel, isSubmit
         })}
         error={errors.spreadsheet_url?.message}
         placeholder="https://docs.google.com/spreadsheets/d/..."
+      />
+
+      <Input
+        label="Worksheet Name"
+        id="worksheet_name"
+        {...register('worksheet_name', { required: 'Worksheet Name is required' })}
+        error={errors.worksheet_name?.message}
+        placeholder="e.g. CIPICUNG"
       />
 
       <div className="flex items-center">

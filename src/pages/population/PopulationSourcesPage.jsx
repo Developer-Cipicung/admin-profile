@@ -301,7 +301,7 @@ export const PopulationSourcesPage = () => {
             Import the latest population data from <strong>{selectedSource?.name}</strong>?
           </p>
           <p className="text-sm text-gray-500">
-            This action will parse the "CIPICUNG" worksheet and overwrite any existing population snapshot for the current month.
+            This action will parse the <strong>"{selectedSource?.worksheet_name || 'CIPICUNG'}"</strong> worksheet and automatically sync all available monthly data into the database.
           </p>
           {actionError && (
             <div className="bg-red-50 p-3 rounded-md">
