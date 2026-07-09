@@ -9,8 +9,14 @@ const NAVIGATION_ITEMS = [
   { name: 'Administrator', path: '/administrators' },
 ];
 
+const POPULATION_ITEMS = [
+  { name: 'Sources', path: '/population/sources' },
+  { name: 'History', path: '/population/history' }
+];
+
 export const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isPopulationOpen, setIsPopulationOpen] = useState(false);
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -54,6 +60,43 @@ export const DashboardLayout = () => {
               {item.name}
             </NavLink>
           ))}
+          
+          {/* Population Menu */}
+          <div className="pt-2 pb-1">
+            <button
+              onClick={() => setIsPopulationOpen(!isPopulationOpen)}
+              className="w-full flex justify-between items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            >
+              <span>Population</span>
+              <svg
+                className={`ml-2 h-5 w-5 transform transition-transform ${isPopulationOpen ? 'rotate-90' : ''}`}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+            {isPopulationOpen && (
+              <div className="mt-1 space-y-1 pl-4">
+                {POPULATION_ITEMS.map((item) => (
+                  <NavLink
+                    key={item.name}
+                    to={item.path}
+                    className={({ isActive }) => 
+                      `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                        isActive 
+                          ? 'bg-blue-50 text-blue-700' 
+                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      }`
+                    }
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
         
         <div className="p-4 border-t border-gray-200">

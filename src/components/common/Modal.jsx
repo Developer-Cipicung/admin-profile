@@ -1,13 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Button } from './Button';
 
-export const ViewDetailsModal = ({
+export const Modal = ({
   open,
   title,
-  image,
-  fields = [],
   onClose,
-  children,
+  children
 }) => {
   const closeRef = useRef(null);
 
@@ -20,7 +17,6 @@ export const ViewDetailsModal = ({
 
     if (open) {
       document.addEventListener('keydown', handleKeyDown);
-      // Autofocus close button for accessibility and keyboard navigation
       setTimeout(() => {
         if (closeRef.current) {
           closeRef.current.focus();
@@ -46,7 +42,7 @@ export const ViewDetailsModal = ({
 
       {/* Modal panel */}
       <div 
-        className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-2xl w-full max-h-[90vh] flex flex-col"
+        className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full flex flex-col"
         role="dialog" 
         aria-modal="true" 
         aria-labelledby="modal-title"
@@ -59,6 +55,7 @@ export const ViewDetailsModal = ({
             type="button"
             className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             onClick={onClose}
+            ref={closeRef}
           >
             <span className="sr-only">Close</span>
             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -67,44 +64,8 @@ export const ViewDetailsModal = ({
           </button>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-          {image && (
-            <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
-              <img 
-                src={image} 
-                alt={title} 
-                className="w-full h-auto max-h-64 object-cover"
-                onError={(e) => { e.target.src = '/placeholder.png' }}
-              />
-            </div>
-          )}
-          
-          <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            {fields.map((field, index) => (
-              <div key={index} className={field.fullWidth ? 'sm:col-span-2' : 'sm:col-span-1'}>
-                <dt className="text-sm font-medium text-gray-500">{field.label}</dt>
-                <dd className="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{field.value}</dd>
-              </div>
-            ))}
-          </dl>
-          
-          {children && (
-            <div className="mt-6 border-t border-gray-200 pt-6">
-              {children}
-            </div>
-          )}
-        </div>
-        
-        <div className="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end shrink-0">
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full sm:w-auto"
-            onClick={onClose}
-            ref={closeRef}
-          >
-            Close
-          </Button>
+        <div className="p-4 sm:p-6">
+          {children}
         </div>
       </div>
     </div>

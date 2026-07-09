@@ -15,6 +15,8 @@ import { CreateProductPage } from '../pages/products/CreateProductPage';
 import { EditProductPage } from '../pages/products/EditProductPage';
 import { AdministratorPage } from '../pages/administrators/AdministratorPage';
 import { CreateAdministratorPage } from '../pages/administrators/CreateAdministratorPage';
+import { PopulationSourcesPage } from '../pages/population/PopulationSourcesPage';
+import { PopulationHistoryPage } from '../pages/population/PopulationHistoryPage';
 
 export const AppRoutes = () => {
   return (
@@ -37,6 +39,8 @@ export const AppRoutes = () => {
           <Route path="/products/:id/edit" element={<EditProductPage />} />
           <Route path="/administrators" element={<AdministratorPage />} />
           <Route path="/administrators/create" element={<CreateAdministratorPage />} />
+          <Route path="/population/sources" element={<PopulationSourcesPage />} />
+          <Route path="/population/history" element={<PopulationHistoryPage />} />
         </Route>
       </Route>
 
