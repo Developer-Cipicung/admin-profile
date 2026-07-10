@@ -69,7 +69,7 @@ export const DashboardPage = () => {
 
       {/* Population Overview Section */}
       <section className="space-y-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center items-start gap-1 sm:gap-0">
           <h2 className="text-2xl font-bold text-gray-900">Ringkasan Penduduk</h2>
           {popSummary?.last_imported && (
             <span className="text-sm text-gray-500">
