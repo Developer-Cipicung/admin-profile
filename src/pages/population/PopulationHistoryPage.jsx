@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router";
 import { usePopulationHistory } from "../../hooks/usePopulationHistory";
 import { PopulationHistoryTable } from "../../components/population/PopulationHistoryTable";
 import { PopulationHistoryCard } from "../../components/population/PopulationHistoryCard";
@@ -22,6 +23,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    const netGrowth = data.Births + data.MoveIn - data.Deaths - data.MoveOut;
+    return (
+      <div className="bg-white p-3 border border-gray-200 rounded shadow-sm text-sm z-50">
+        <p className="font-semibold text-gray-900 mb-2">{label}</p>
+        <p className="text-gray-700">Total: <span className="font-medium text-blue-600">{new Intl.NumberFormat('id-ID').format(data.Population)}</span></p>
+        <p className="text-gray-700">Lahir: <span className="font-medium text-green-600">+{new Intl.NumberFormat('id-ID').format(data.Births)}</span></p>
+        <p className="text-gray-700">Mati: <span className="font-medium text-red-600">-{new Intl.NumberFormat('id-ID').format(data.Deaths)}</span></p>
+        <p className="text-gray-700">Masuk: <span className="font-medium text-green-600">+{new Intl.NumberFormat('id-ID').format(data.MoveIn)}</span></p>
+        <p className="text-gray-700">Keluar: <span className="font-medium text-red-600">-{new Intl.NumberFormat('id-ID').format(data.MoveOut)}</span></p>
+        <div className="mt-2 pt-2 border-t border-gray-100">
+          <p className="text-gray-700">Net: <span className={`font-medium ${netGrowth > 0 ? 'text-green-600' : netGrowth < 0 ? 'text-red-600' : 'text-gray-900'}`}>{netGrowth > 0 ? '+' : ''}{new Intl.NumberFormat('id-ID').format(netGrowth)}</span></p>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
 export const PopulationHistoryPage = () => {
   const {
     history,
@@ -29,18 +51,34 @@ export const PopulationHistoryPage = () => {
     loading,
     error,
     pagination,
+    availableFilters,
+    yearlyCounts,
     fetchHistory,
     fetchTrends,
+    fetchFilters,
     getSnapshotDetails,
     deleteSnapshot,
   } = usePopulationHistory();
 
-  // Filter state
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("year");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [monthFilter, setMonthFilter] = useState("");
-  const [yearFilter, setYearFilter] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Filter state derived from URL
+  const search = searchParams.get("search") || "";
+  const sortBy = searchParams.get("sortBy") || "year";
+  const sortOrder = searchParams.get("sortOrder") || "desc";
+  const monthFilter = searchParams.get("month") || "";
+  const yearFilter = searchParams.get("year") || "";
+  const sourceFilter = searchParams.get("source_id") || "";
+  const pageFilter = searchParams.get("page") || "1";
+
+  const updateParams = (newParams) => {
+    const params = new URLSearchParams(searchParams);
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+    setSearchParams(params);
+  };
 
   // Modal states
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -53,40 +91,28 @@ export const PopulationHistoryPage = () => {
   const [detailsLoading, setDetailsLoading] = useState(false);
 
   useEffect(() => {
-    fetchHistory({
-      search,
-      sortBy,
-      sortOrder,
-      month: monthFilter,
-      year: yearFilter,
-      page: 1,
-    });
-    fetchTrends(); // optionally pass year filter if needed later
-  }, [fetchHistory, fetchTrends]);
+    fetchFilters();
+  }, [fetchFilters]);
 
-  const handleFilterChange = ({ search, sortBy, sortOrder }) => {
-    setSearch(search);
-    setSortBy(sortBy);
-    setSortOrder(sortOrder);
+  useEffect(() => {
     fetchHistory({
       search,
       sortBy,
       sortOrder,
       month: monthFilter,
       year: yearFilter,
-      page: 1,
+      source_id: sourceFilter,
+      page: parseInt(pageFilter, 10),
     });
+    fetchTrends({ year: yearFilter, source_id: sourceFilter });
+  }, [fetchHistory, fetchTrends, search, sortBy, sortOrder, monthFilter, yearFilter, sourceFilter, pageFilter]);
+
+  const handleFilterChange = ({ search: newSearch, sortBy: newSortBy, sortOrder: newSortOrder }) => {
+    updateParams({ search: newSearch, sortBy: newSortBy, sortOrder: newSortOrder, page: "1" });
   };
 
   const handlePageChange = (page) => {
-    fetchHistory({
-      search,
-      sortBy,
-      sortOrder,
-      month: monthFilter,
-      year: yearFilter,
-      page,
-    });
+    updateParams({ page: page.toString() });
   };
 
   const handleView = async (snapshot) => {
@@ -176,6 +202,17 @@ export const PopulationHistoryPage = () => {
     MoveOut: t.move_out_total,
   }));
 
+  // Filter derivations
+  const years = [...new Set(availableFilters.map(f => f.year))].sort((a,b) => b - a);
+  const validMonths = availableFilters.filter(f => !yearFilter || f.year.toString() === yearFilter.toString());
+  const months = [...new Set(validMonths.map(f => f.month))].sort((a,b) => a - b);
+  const validSources = availableFilters.filter(f => 
+    (!yearFilter || f.year.toString() === yearFilter.toString()) && 
+    (!monthFilter || f.month.toString() === monthFilter.toString())
+  );
+  const sources = [...new Set(validSources.map(f => JSON.stringify({id: f.source_id, name: f.source?.name})))].map(s => JSON.parse(s));
+
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -202,14 +239,15 @@ export const PopulationHistoryPage = () => {
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
+                  <YAxis domain={['auto', 'auto']} tickFormatter={(value) => new Intl.NumberFormat('id-ID').format(value)} />
+                  <Tooltip content={<CustomTooltip />} />
                   <Legend />
                   <Line
                     type="monotone"
                     dataKey="Population"
                     stroke="#3b82f6"
                     activeDot={{ r: 8 }}
+                    strokeWidth={2}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -225,7 +263,7 @@ export const PopulationHistoryPage = () => {
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis tickFormatter={(value) => new Intl.NumberFormat('id-ID').format(value)} />
                   <Tooltip />
                   <Legend />
                   <Bar dataKey="Births" fill="#10b981" />
@@ -244,7 +282,7 @@ export const PopulationHistoryPage = () => {
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis tickFormatter={(value) => new Intl.NumberFormat('id-ID').format(value)} />
                   <Tooltip />
                   <Legend />
                   <Bar dataKey="MoveIn" fill="#10b981" />
@@ -255,6 +293,31 @@ export const PopulationHistoryPage = () => {
           </Card>
         </div>
       )}
+
+      {/* Cascading Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
+          <select value={yearFilter} onChange={(e) => updateParams({ year: e.target.value, month: "", source_id: "", page: "1" })} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+            <option value="">Semua Tahun</option>
+            {years.map(y => <option key={y} value={y}>{y} ({yearlyCounts[y] || 0})</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+          <select value={monthFilter} onChange={(e) => updateParams({ month: e.target.value, source_id: "", page: "1" })} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+            <option value="">Semua Bulan</option>
+            {months.map(m => <option key={m} value={m}>{m}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Sumber Data</label>
+          <select value={sourceFilter} onChange={(e) => updateParams({ source_id: e.target.value, page: "1" })} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+            <option value="">Semua Sumber</option>
+            {sources.map(s => <option key={s.id} value={s.id}>{s.name || "Unknown"}</option>)}
+          </select>
+        </div>
+      </div>
 
       <FilterToolbar
         onFilterChange={handleFilterChange}

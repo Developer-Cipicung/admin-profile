@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getToken, saveToken, removeToken, saveUsername, getUsername, removeUsername } from '../utils/token';
+import { getToken, saveToken, removeToken, saveAdminData, getAdminData, removeAdminData } from '../utils/token';
 import { authService } from '../services/auth.service';
+import { ROLE_PERMISSIONS } from '../constants/rbac.constants';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [admin, setAdmin] = useState(null);
+  const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,9 +16,10 @@ export const AuthProvider = ({ children }) => {
       const token = getToken();
       if (token) {
         setIsAuthenticated(true);
-        const storedUsername = getUsername();
-        if (storedUsername) {
-          setAdmin({ username: storedUsername });
+        const storedAdmin = getAdminData();
+        if (storedAdmin) {
+          setAdmin(storedAdmin);
+          setPermissions(ROLE_PERMISSIONS[storedAdmin.role] || []);
         }
       }
       setLoading(false);
@@ -29,10 +32,11 @@ export const AuthProvider = ({ children }) => {
     const response = await authService.login(username, password);
     if (response.success && response.data) {
       saveToken(response.data.accessToken);
-      if (response.data.admin?.username) {
-        saveUsername(response.data.admin.username);
+      if (response.data.admin) {
+        saveAdminData(response.data.admin);
       }
       setAdmin(response.data.admin);
+      setPermissions(ROLE_PERMISSIONS[response.data.admin.role] || []);
       setIsAuthenticated(true);
     }
     return response;
@@ -40,13 +44,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     removeToken();
-    removeUsername();
+    removeAdminData();
     setAdmin(null);
+    setPermissions([]);
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, admin, loading, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, admin, permissions, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

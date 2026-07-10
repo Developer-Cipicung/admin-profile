@@ -2,6 +2,8 @@ import React from 'react';
 import { formatDate } from '../../utils/date';
 import { Card, CardBody } from '../common/Card';
 import { LoadingSpinner } from '../common/LoadingSpinner';
+import { Badge } from '../common/Badge';
+import { ROLE_LABELS, ROLE_BADGE_VARIANTS } from '../../constants/rbac.constants';
 
 export const AdministratorCard = ({ data, loading, onView, onDelete, currentUser }) => {
   if (loading) {
@@ -30,6 +32,11 @@ export const AdministratorCard = ({ data, loading, onView, onDelete, currentUser
                   )}
                 </div>
                 <p className="text-sm text-gray-600">{item.full_name}</p>
+                <div className="mt-2">
+                  <Badge variant={ROLE_BADGE_VARIANTS[item.role] || 'gray'}>
+                    {ROLE_LABELS[item.role] || item.role}
+                  </Badge>
+                </div>
               </div>
               
               <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">

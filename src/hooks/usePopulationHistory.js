@@ -6,6 +6,8 @@ export const usePopulationHistory = () => {
   const [trends, setTrends] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [availableFilters, setAvailableFilters] = useState([]);
+  const [yearlyCounts, setYearlyCounts] = useState({});
   
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -51,6 +53,18 @@ export const usePopulationHistory = () => {
     }
   }, []);
 
+  const fetchFilters = useCallback(async () => {
+    try {
+      const response = await populationHistoryService.getFilters();
+      if (response.success && response.data) {
+        setAvailableFilters(response.data.filters || []);
+        setYearlyCounts(response.data.yearlyCounts || {});
+      }
+    } catch (err) {
+      console.error('Failed to fetch filters:', err);
+    }
+  }, []);
+
   const getSnapshotDetails = async (id) => {
     const response = await populationHistoryService.getSnapshotDetails(id);
     return response.data;
@@ -63,11 +77,14 @@ export const usePopulationHistory = () => {
   return {
     history,
     trends,
+    availableFilters,
+    yearlyCounts,
     loading,
     error,
     pagination,
     fetchHistory,
     fetchTrends,
+    fetchFilters,
     getSnapshotDetails,
     deleteSnapshot
   };

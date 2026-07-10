@@ -38,3 +38,15 @@ src/
 5. `news.service.js` parses parameters via `utils/queryParams.js` and calls the global `api.get()`.
 6. Data flows back up to `useNews.js`, which triggers a re-render.
 7. `NewsPage.jsx` passes the raw data to purely presentational components (`NewsTable.jsx`, `NewsCard.jsx`).
+
+## Advanced Patterns
+
+### Population History Filter Lifecycle (URL Synchronization)
+To ensure shareability and persistence upon refresh, filter states (e.g., Year, Month, Source ID, Pagination) in the Population History page are managed via the URL using `useSearchParams`:
+1. Dropdown interactions update the browser URL parameters.
+2. Changes to URL parameters trigger a `useEffect` inside `PopulationHistoryPage`.
+3. This effect fetches updated data arrays (`fetchHistory`, `fetchTrends`) based directly on the URL state.
+4. A separate `/filters` endpoint supplies dynamically grouped configurations, automatically displaying the precise number of snapshots available for any given year.
+
+### Export Service Contract
+All export formats are tightly governed by `populationExport.service.js` which strictly defines expected inputs (query filters) and required outputs (CSV/Excel/PDF buffer streams) for future integrations, respecting SOLID dependency segregation rules.

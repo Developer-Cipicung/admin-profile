@@ -17,6 +17,10 @@ export const populationHistoryService = {
     return api.get(`/admin/population/history/${id}`);
   },
 
+  getFilters: async () => {
+    return api.get('/admin/population/history/filters');
+  },
+
   getTrends: async (params = {}) => {
     const query = new URLSearchParams();
     Object.keys(params).forEach(key => {

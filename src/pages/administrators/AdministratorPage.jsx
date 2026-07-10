@@ -90,7 +90,9 @@ export const AdministratorPage = () => {
           <p className="mt-1 text-sm text-gray-500">Kelola admin dashboard dan aksesnya.</p>
         </div>
         <div className="mt-4 sm:mt-0 flex gap-2">
-          <Button onClick={() => navigate('/administrators/create')} variant="primary">Buat Admin</Button>
+          {admin?.role === 'SUPER_ADMIN' && (
+            <Button onClick={() => navigate('/administrators/create')} variant="primary">Buat Admin</Button>
+          )}
         </div>
       </div>
 
@@ -172,6 +174,7 @@ export const AdministratorPage = () => {
         fields={itemToView ? [
           { label: 'Nama Pengguna', value: itemToView.username, fullWidth: true },
           { label: 'Nama Lengkap', value: itemToView.full_name, fullWidth: true },
+          { label: 'Peran', value: itemToView.role === 'SUPER_ADMIN' ? 'Super Admin' : itemToView.role === 'PROFILE_ADMIN' ? 'Admin Profil' : 'Admin Marketing', fullWidth: true },
           { label: 'Dibuat Pada', value: formatDate(itemToView.created_at) },
           { label: 'Diperbarui Pada', value: formatDate(itemToView.updated_at) },
         ] : []}

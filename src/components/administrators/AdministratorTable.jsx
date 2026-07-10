@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatDate } from '../../utils/date';
 import { LoadingSpinner } from '../common/LoadingSpinner';
+import { Badge } from '../common/Badge';
+import { ROLE_LABELS, ROLE_BADGE_VARIANTS } from '../../constants/rbac.constants';
 
 export const AdministratorTable = ({ data, loading, onView, onDelete, currentUser }) => {
   if (loading) {
@@ -21,6 +23,9 @@ export const AdministratorTable = ({ data, loading, onView, onDelete, currentUse
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Nama Lengkap
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Peran
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Dibuat Pada
@@ -49,6 +54,11 @@ export const AdministratorTable = ({ data, loading, onView, onDelete, currentUse
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {item.full_name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <Badge variant={ROLE_BADGE_VARIANTS[item.role] || 'gray'}>
+                    {ROLE_LABELS[item.role] || item.role}
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {formatDate(item.created_at)}

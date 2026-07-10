@@ -12,16 +12,17 @@ export const removeToken = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-const USERNAME_KEY = 'admin_username';
+const ADMIN_DATA_KEY = 'admin_data';
 
-export const saveUsername = (username) => {
-  localStorage.setItem(USERNAME_KEY, username);
+export const saveAdminData = (adminData) => {
+  localStorage.setItem(ADMIN_DATA_KEY, JSON.stringify(adminData));
 };
 
-export const getUsername = () => {
-  return localStorage.getItem(USERNAME_KEY);
+export const getAdminData = () => {
+  const data = localStorage.getItem(ADMIN_DATA_KEY);
+  return data ? JSON.parse(data) : null;
 };
 
-export const removeUsername = () => {
-  localStorage.removeItem(USERNAME_KEY);
+export const removeAdminData = () => {
+  localStorage.removeItem(ADMIN_DATA_KEY);
 };

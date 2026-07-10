@@ -5,7 +5,7 @@ import { PasswordInput } from '../form/PasswordInput';
 import { Button } from '../common/Button';
 
 export const AdministratorForm = ({
-  defaultValues = { username: '', full_name: '', password: '', confirm_password: '' },
+  defaultValues = { username: '', full_name: '', role: 'PROFILE_ADMIN', password: '', confirm_password: '' },
   loading = false,
   serverError = null,
   submitLabel = 'Submit',
@@ -25,6 +25,7 @@ export const AdministratorForm = ({
       onSubmit({
         username: data.username,
         full_name: data.full_name,
+        role: data.role,
         password: data.password
       });
     }
@@ -70,6 +71,24 @@ export const AdministratorForm = ({
             maxLength: { value: 100, message: 'Nama lengkap maksimal 100 karakter' }
           })}
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Peran <span className="text-red-500">*</span>
+        </label>
+        <select
+          id="role"
+          disabled={loading}
+          className={`w-full rounded-md border ${
+            errors.role ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+          } shadow-sm px-4 py-2 bg-white text-gray-900 outline-none transition-colors disabled:bg-gray-100 disabled:text-gray-500`}
+          {...register('role', { required: 'Peran wajib diisi' })}
+        >
+          <option value="PROFILE_ADMIN">Admin Profil (Berita & Penduduk)</option>
+          <option value="MARKETING_ADMIN">Admin Marketing (Produk)</option>
+        </select>
+        {errors.role && <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>}
       </div>
 
       <div>
