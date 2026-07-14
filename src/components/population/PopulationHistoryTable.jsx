@@ -19,7 +19,7 @@ export const PopulationHistoryTable = ({ history, onView, onDelete, latestSnapsh
               Lahir / Masuk
             </th>
             <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
-              Mati / Keluar
+              Meninggal / Keluar
             </th>
             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
               Waktu Tarik

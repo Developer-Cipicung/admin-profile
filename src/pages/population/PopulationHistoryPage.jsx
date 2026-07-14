@@ -32,7 +32,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         <p className="font-semibold text-gray-900 mb-2">{label}</p>
         <p className="text-gray-700">Total: <span className="font-medium text-blue-600">{new Intl.NumberFormat('id-ID').format(data.Population)}</span></p>
         <p className="text-gray-700">Lahir: <span className="font-medium text-green-600">+{new Intl.NumberFormat('id-ID').format(data.Births)}</span></p>
-        <p className="text-gray-700">Mati: <span className="font-medium text-red-600">-{new Intl.NumberFormat('id-ID').format(data.Deaths)}</span></p>
+        <p className="text-gray-700">Meninggal: <span className="font-medium text-red-600">-{new Intl.NumberFormat('id-ID').format(data.Deaths)}</span></p>
         <p className="text-gray-700">Masuk: <span className="font-medium text-green-600">+{new Intl.NumberFormat('id-ID').format(data.MoveIn)}</span></p>
         <p className="text-gray-700">Keluar: <span className="font-medium text-red-600">-{new Intl.NumberFormat('id-ID').format(data.MoveOut)}</span></p>
         <div className="mt-2 pt-2 border-t border-gray-100">
@@ -181,7 +181,7 @@ export const PopulationHistoryPage = () => {
             selectedSnapshot.move_out_total,
         },
         { label: "Total Births", value: selectedSnapshot.birth_total },
-        { label: "Total Deaths", value: selectedSnapshot.death_total },
+        { label: "Total Meninggal", value: selectedSnapshot.death_total },
         { label: "Total Move In", value: selectedSnapshot.move_in_total },
         { label: "Total Move Out", value: selectedSnapshot.move_out_total },
         {
@@ -257,7 +257,7 @@ export const PopulationHistoryPage = () => {
           <Card>
             <CardBody className="p-4 h-80">
               <h3 className="text-sm font-semibold text-gray-700 mb-4">
-                Kelahiran vs Kematian
+                Kelahiran vs Meninggal
               </h3>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
@@ -443,7 +443,7 @@ export const PopulationHistoryPage = () => {
                       scope="col"
                       className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Mati
+                      Meninggal
                     </th>
                     <th
                       scope="col"

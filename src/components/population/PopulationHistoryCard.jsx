@@ -29,7 +29,7 @@ export const PopulationHistoryCard = ({ snapshot, onView, onDelete, latestSnapsh
             <span className="font-medium text-green-600">+{snapshot.birth_total} / +{snapshot.move_in_total}</span>
           </div>
           <div className="flex justify-between">
-            <span>Mati / Keluar:</span>
+            <span>Meninggal / Keluar:</span>
             <span className="font-medium text-red-600">-{snapshot.death_total} / -{snapshot.move_out_total}</span>
           </div>
           <div className="flex justify-between">

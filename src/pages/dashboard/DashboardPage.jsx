@@ -124,7 +124,7 @@ const PopulationOverview = () => {
               }`}>
                 {popSummary.net_growth > 0 ? '+' : ''}{popSummary.net_growth}
               </p>
-              <p className="text-xs text-gray-400 mt-1">Lahir + Masuk - Mati - Keluar</p>
+              <p className="text-xs text-gray-400 mt-1">Lahir + Masuk - Meninggal - Keluar</p>
             </CardBody>
           </Card>
 
@@ -144,7 +144,7 @@ const PopulationOverview = () => {
                 </div>
                 <div className="space-y-3 border-l pl-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">Mati</span>
+                    <span className="text-sm text-gray-500">Meninggal</span>
                     <span className="font-medium text-red-600">-{popSummary.death_total}</span>
                   </div>
                   <div className="flex justify-between items-center">
