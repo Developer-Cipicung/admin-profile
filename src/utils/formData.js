@@ -28,6 +28,7 @@ export const buildProductFormData = (data) => {
   if (data.name) formData.append('name', data.name);
   if (data.description) formData.append('description', data.description);
   if (data.price) formData.append('price', data.price);
+  if (data.no_telp) formData.append('no_telp', data.no_telp);
   if (data.image instanceof File) {
     formData.append('image', data.image);
   } else if (data.image === null) {

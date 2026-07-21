@@ -3,9 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { newsService } from '../../services/news.service';
 import { formatDate } from '../../utils/date';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
-const BASE_URL = API_URL.replace('/api/v1', '');
+import { getFullImageUrl } from '../../utils/image';
 
 export const ViewNewsPage = () => {
   const { id } = useParams();
@@ -63,10 +61,6 @@ export const ViewNewsPage = () => {
     );
   }
 
-  const imageUrl = news.thumbnail_url?.startsWith('http') 
-    ? news.thumbnail_url 
-    : `${BASE_URL}${news.thumbnail_url}`;
-
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-12">
       {/* Header and Back Button */}
@@ -91,7 +85,7 @@ export const ViewNewsPage = () => {
         {news.thumbnail_url && (
           <div className="w-full h-64 sm:h-80 md:h-96 relative bg-gray-100">
             <img 
-              src={imageUrl} 
+              src={getFullImageUrl(news.thumbnail_url)} 
               alt={news.title}
               className="w-full h-full object-cover"
               onError={(e) => { e.target.src = '/placeholder.png' }}

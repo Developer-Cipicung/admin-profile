@@ -6,7 +6,7 @@ import { Button } from '../common/Button';
 import { ImageUpload } from '../common/ImageUpload';
 
 export const ProductForm = ({
-  defaultValues = { name: '', description: '', price: '', image: null },
+  defaultValues = { name: '', description: '', price: '', no_telp: '', image: null },
   loading = false,
   serverError = null,
   submitLabel = 'Submit',
@@ -87,6 +87,22 @@ export const ProductForm = ({
           })}
         />
         {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="no_telp" className="block text-sm font-medium text-gray-700 mb-1">
+          Nomor Telepon (WhatsApp) <span className="text-gray-400 font-normal">(Opsional)</span>
+        </label>
+        <Input
+          id="no_telp"
+          type="tel"
+          disabled={loading}
+          placeholder="e.g. 081234567890"
+          {...register('no_telp', { 
+            maxLength: { value: 20, message: 'Nomor telepon tidak boleh lebih dari 20 karakter' }
+          })}
+        />
+        {errors.no_telp && <p className="mt-1 text-sm text-red-600">{errors.no_telp.message}</p>}
       </div>
 
       <Controller

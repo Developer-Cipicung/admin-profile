@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { formatDate } from '../../utils/date';
 import { LoadingSpinner } from '../common/LoadingSpinner';
+import { getFullImageUrl } from '../../utils/image';
 
 export const NewsTable = ({ data, loading, onView, onDelete }) => {
   if (loading) {
@@ -39,7 +40,7 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
             <tr key={item.id} className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap">
                 <img 
-                  src={import.meta.env.VITE_API_URL.replace('/api/v1', '') + item.thumbnail_url} 
+                  src={getFullImageUrl(item.thumbnail_url)} 
                   alt={item.title} 
                   className="h-12 w-16 object-cover rounded bg-gray-100"
                   onError={(e) => { e.target.src = '/placeholder.png' }}

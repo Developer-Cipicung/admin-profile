@@ -13,6 +13,7 @@ import { DeleteConfirmationModal } from '../../components/common/DeleteConfirmat
 import { formatDate } from '../../utils/date';
 import { formatCurrency } from '../../utils/currency';
 import { handlePaginationAfterDelete } from '../../utils/paginationHelper';
+import { getFullImageUrl } from '../../utils/image';
 
 export const ProductPage = () => {
   const navigate = useNavigate();
@@ -164,11 +165,12 @@ export const ProductPage = () => {
       <ViewDetailsModal
         open={!!itemToView}
         title="Detail Produk"
-        image={import.meta.env.VITE_API_URL.replace('/api/v1', '') + (itemToView?.image_url || '/uploads/default-product.png')}
+        image={getFullImageUrl(itemToView?.image_url, '/uploads/default-product.png')}
         fields={itemToView ? [
           { label: 'Nama', value: itemToView.name, fullWidth: true },
           { label: 'Deskripsi', value: itemToView.description, fullWidth: true },
           { label: 'Harga', value: formatCurrency(itemToView.price) },
+          { label: 'Kontak', value: itemToView.no_telp || '-' },
           { label: 'Dibuat Pada', value: formatDate(itemToView.created_at) },
           { label: 'Diperbarui Pada', value: formatDate(itemToView.updated_at) },
         ] : []}

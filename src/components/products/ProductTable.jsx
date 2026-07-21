@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { formatDate } from '../../utils/date';
 import { formatCurrency } from '../../utils/currency';
 import { LoadingSpinner } from '../common/LoadingSpinner';
+import { getFullImageUrl } from '../../utils/image';
 
 export const ProductTable = ({ data, loading, onView, onDelete }) => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                 Harga
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Kontak
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Dibuat Pada
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -44,7 +48,7 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                   <div className="flex items-center">
                     <div className="h-12 w-12 flex-shrink-0">
                       <img 
-                        src={import.meta.env.VITE_API_URL.replace('/api/v1', '') + (item.image_url || '/uploads/default-product.png')} 
+                        src={getFullImageUrl(item.image_url, '/uploads/default-product.png')} 
                         alt={item.name} 
                         className="h-12 w-12 object-cover rounded bg-gray-100 border border-gray-200"
                         onError={(e) => { e.target.src = '/placeholder.png' }}
@@ -58,6 +62,9 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900 font-medium">{formatCurrency(item.price)}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-500">{item.no_telp || '-'}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {formatDate(item.created_at)}

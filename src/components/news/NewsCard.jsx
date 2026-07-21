@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { formatDate } from '../../utils/date';
 import { Card, CardBody } from '../common/Card';
+import { getFullImageUrl } from '../../utils/image';
 import { LoadingSpinner } from '../common/LoadingSpinner';
 
 export const NewsCard = ({ data, loading, onView, onDelete }) => {
@@ -19,7 +20,7 @@ export const NewsCard = ({ data, loading, onView, onDelete }) => {
         <Card key={item.id} className="flex flex-col">
           <div className="aspect-video w-full bg-gray-100 overflow-hidden">
             <img 
-              src={import.meta.env.VITE_API_URL.replace('/api/v1', '') + item.thumbnail_url}
+              src={getFullImageUrl(item.thumbnail_url)}
               alt={item.title}
               className="w-full h-full object-cover"
               onError={(e) => { e.target.src = '/placeholder.png' }}

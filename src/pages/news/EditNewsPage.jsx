@@ -3,9 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { useEditNews } from '../../hooks/useEditNews';
 import { NewsForm } from '../../components/news/NewsForm';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
-const BASE_URL = API_URL.replace('/api/v1', '');
+import { getFullImageUrl } from '../../utils/image';
 
 export const EditNewsPage = () => {
   const { id } = useParams();
@@ -49,9 +47,7 @@ export const EditNewsPage = () => {
   if (!newsData) return null;
 
   // Resolve the full URL for the preview
-  const previewUrl = newsData.thumbnail_url?.startsWith('http') 
-    ? newsData.thumbnail_url 
-    : `${BASE_URL}${newsData.thumbnail_url}`;
+  const previewUrl = getFullImageUrl(newsData.thumbnail_url);
 
   return (
     <div className="space-y-6">

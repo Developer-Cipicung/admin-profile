@@ -2,14 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useEditProduct } from '../../hooks/useEditProduct';
 import { ProductForm } from '../../components/products/ProductForm';
-
-const API_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:3000';
-
-const getFullImageUrl = (path) => {
-  if (!path) return null;
-  if (path.startsWith('http')) return path;
-  return `${API_URL}${path}`;
-};
+import { getFullImageUrl } from '../../utils/image';
 
 export const EditProductPage = () => {
   const { id } = useParams();
@@ -57,6 +50,7 @@ export const EditProductPage = () => {
     name: product.name || '',
     description: product.description || '',
     price: product.price || '',
+    no_telp: product.no_telp || '',
     image: product.image_url, // Pass the string URL so preview works initially
   };
 
