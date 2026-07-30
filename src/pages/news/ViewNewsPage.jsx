@@ -88,7 +88,7 @@ export const ViewNewsPage = () => {
               src={getFullImageUrl(news.thumbnail_url)} 
               alt={news.title}
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.src = '/placeholder.png' }}
+              onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
             />
           </div>
         )}

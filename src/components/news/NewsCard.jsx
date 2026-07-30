@@ -23,7 +23,7 @@ export const NewsCard = ({ data, loading, onView, onDelete }) => {
               src={getFullImageUrl(item.thumbnail_url)}
               alt={item.title}
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.src = '/placeholder.png' }}
+              onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
             />
           </div>
           <CardBody className="flex-1 flex flex-col">

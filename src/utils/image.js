@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
  * @param {string} fallback - The fallback image path if path is null
  * @returns {string} The full URL
  */
-export const getFullImageUrl = (path, fallback = '/placeholder.png') => {
+export const getFullImageUrl = (path, fallback = '/placeholder.svg') => {
   if (!path) return fallback;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
   

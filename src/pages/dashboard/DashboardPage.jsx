@@ -157,6 +157,29 @@ const PopulationOverview = () => {
           </Card>
         </div>
       )}
+      
+      {popSummary && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          <Card>
+            <CardBody className="p-5">
+              <h3 className="text-sm font-medium text-gray-500">Jumlah KK</h3>
+              <p className="mt-2 text-3xl font-bold text-indigo-600">{popSummary.sum_kk || 0}</p>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardBody className="p-5">
+              <h3 className="text-sm font-medium text-gray-500">Laki-laki (Akhir)</h3>
+              <p className="mt-2 text-3xl font-bold text-blue-600">{popSummary.male_count || 0}</p>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardBody className="p-5">
+              <h3 className="text-sm font-medium text-gray-500">Perempuan (Akhir)</h3>
+              <p className="mt-2 text-3xl font-bold text-pink-600">{popSummary.female_count || 0}</p>
+            </CardBody>
+          </Card>
+        </div>
+      )}
     </section>
   );
 };

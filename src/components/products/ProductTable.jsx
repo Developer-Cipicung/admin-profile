@@ -51,7 +51,7 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                         src={getFullImageUrl(item.image_url, '/uploads/default-product.png')} 
                         alt={item.name} 
                         className="h-12 w-12 object-cover rounded bg-gray-100 border border-gray-200"
-                        onError={(e) => { e.target.src = '/placeholder.png' }}
+                        onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
                       />
                     </div>
                     <div className="ml-4">

@@ -43,7 +43,7 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
                   src={getFullImageUrl(item.thumbnail_url)} 
                   alt={item.title} 
                   className="h-12 w-16 object-cover rounded bg-gray-100"
-                  onError={(e) => { e.target.src = '/placeholder.png' }}
+                  onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
                 />
               </td>
               <td className="px-6 py-4">

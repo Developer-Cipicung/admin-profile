@@ -172,6 +172,9 @@ export const PopulationHistoryPage = () => {
           label: "Current Population",
           value: selectedSnapshot.current_population,
         },
+        { label: "Jumlah KK", value: selectedSnapshot.family_count || 0 },
+        { label: "Laki-laki", value: selectedSnapshot.male_count || 0 },
+        { label: "Perempuan", value: selectedSnapshot.female_count || 0 },
         {
           label: "Net Growth",
           value:
@@ -437,6 +440,24 @@ export const PopulationHistoryPage = () => {
                       scope="col"
                       className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
+                      KK
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Laki-laki
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Perempuan
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Lahir
                     </th>
                     <th
@@ -470,6 +491,15 @@ export const PopulationHistoryPage = () => {
                       </td>
                       <td className="px-3 py-2 text-sm font-medium text-gray-900 text-right">
                         {detail.current_population}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-indigo-600 text-right">
+                        {detail.family_count || 0}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-blue-600 text-right">
+                        {detail.male_count || 0}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-pink-600 text-right">
+                        {detail.female_count || 0}
                       </td>
                       <td className="px-3 py-2 text-sm text-green-600 text-right">
                         +{detail.birth_count}

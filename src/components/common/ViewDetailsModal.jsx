@@ -74,7 +74,7 @@ export const ViewDetailsModal = ({
                 src={image} 
                 alt={title} 
                 className="w-full h-auto max-h-64 object-cover"
-                onError={(e) => { e.target.src = '/placeholder.png' }}
+                onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
               />
             </div>
           )}

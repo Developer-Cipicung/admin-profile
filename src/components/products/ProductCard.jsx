@@ -25,7 +25,7 @@ export const ProductCard = ({ data, loading, onView, onDelete }) => {
             src={getFullImageUrl(item.image_url, '/uploads/default-product.png')}
             alt={item.name} 
             className="w-full h-48 object-cover bg-gray-100"
-            onError={(e) => { e.target.src = '/placeholder.png' }}
+            onError={(e) => { if (!e.target.src.includes('/placeholder.svg')) e.target.src = '/placeholder.svg' }}
           />
           <CardBody>
             <div className="flex justify-between items-start mb-2">
