@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useEditNews } from '../../hooks/useEditNews';
 import { NewsForm } from '../../components/news/NewsForm';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { getFullImageUrl } from '../../utils/image';
+import { formatDateForInput } from '../../utils/date';
 
 export const EditNewsPage = () => {
   const { id } = useParams();
@@ -73,6 +74,7 @@ export const EditNewsPage = () => {
           defaultValues={{
             title: newsData.title,
             content: newsData.content,
+            created_at: formatDateForInput(newsData.created_at),
             thumbnail: newsData.thumbnail_url // Pass the string URL so preview works initially
           }}
           previewUrl={previewUrl}

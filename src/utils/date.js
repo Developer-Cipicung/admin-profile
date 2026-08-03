@@ -26,3 +26,30 @@ export const formatDate = (isoString) => {
     return isoString;
   }
 };
+
+/**
+ * Formats an ISO date string or timestamp into 'YYYY-MM-DD' for HTML date inputs.
+ *
+ * @param {string} isoString - The ISO date string from the backend.
+ * @returns {string} - Formatted date string (e.g. '2026-08-03') or empty string.
+ */
+export const formatDateForInput = (isoString) => {
+  if (!isoString) return '';
+
+  try {
+    const utcString = isoString.endsWith('Z') || isoString.includes('+') ? isoString : `${isoString}Z`;
+    const date = new Date(utcString);
+    if (isNaN(date.getTime())) return '';
+
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    return formatter.format(date);
+  } catch {
+    return '';
+  }
+};
+

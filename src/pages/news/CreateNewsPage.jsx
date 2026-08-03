@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router';
 import { useCreateNews } from '../../hooks/useCreateNews';
 import { NewsForm } from '../../components/news/NewsForm';

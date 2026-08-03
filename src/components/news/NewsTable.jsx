@@ -25,7 +25,7 @@ export const NewsTable = ({ data, loading, onView, onDelete }) => {
               Judul
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Dibuat Pada
+              Tanggal Kegiatan
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Diperbarui Pada

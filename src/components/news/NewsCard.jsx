@@ -29,7 +29,7 @@ export const NewsCard = ({ data, loading, onView, onDelete }) => {
           <CardBody className="flex-1 flex flex-col">
             <h3 className="text-sm font-bold text-gray-900 mb-2 line-clamp-2">{item.title}</h3>
             <div className="mt-auto space-y-1 text-xs text-gray-500">
-              <p>Dibuat: {formatDate(item.created_at)}</p>
+              <p>Tanggal Kegiatan: {formatDate(item.created_at)}</p>
               <p>Diperbarui: {formatDate(item.updated_at)}</p>
             </div>
             <div className="mt-4 flex justify-end space-x-3 pt-3 border-t border-gray-100">

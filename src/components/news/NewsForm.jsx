@@ -6,7 +6,7 @@ import { Button } from '../common/Button';
 import { ImageUpload } from '../common/ImageUpload';
 
 export const NewsForm = ({ 
-  defaultValues = { title: '', content: '', thumbnail: null }, 
+  defaultValues = { title: '', content: '', created_at: '', thumbnail: null }, 
   loading = false, 
   serverError = null, 
   submitLabel = 'Submit', 
@@ -50,6 +50,22 @@ export const NewsForm = ({
           })}
         />
         {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="created_at" className="block text-sm font-medium text-gray-700 mb-1">
+          Tanggal Kegiatan Berita <span className="text-gray-400 font-normal text-xs">(Opsional)</span>
+        </label>
+        <Input
+          id="created_at"
+          type="date"
+          disabled={loading}
+          {...register('created_at')}
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          Kosongkan jika ingin menggunakan waktu saat ini secara otomatis.
+        </p>
+        {errors.created_at && <p className="mt-1 text-sm text-red-600">{errors.created_at.message}</p>}
       </div>
 
       <div>

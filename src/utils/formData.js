@@ -8,6 +8,7 @@ export const buildNewsFormData = (data) => {
   
   if (data.title) formData.append('title', data.title);
   if (data.content) formData.append('content', data.content);
+  if (data.created_at) formData.append('created_at', data.created_at);
   if (data.thumbnail instanceof File) {
     formData.append('thumbnail', data.thumbnail);
   } else if (data.thumbnail === null) {
