@@ -20,7 +20,7 @@ export const buildNewsFormData = (data) => {
 
 /**
  * Builds a FormData object for Product submission.
- * @param {Object} data - The product data containing name, description, price, and optionally image.
+ * @param {Object} data - The product data containing name, description, price, Shopee link, and optionally image.
  * @returns {FormData}
  */
 export const buildProductFormData = (data) => {
@@ -30,6 +30,10 @@ export const buildProductFormData = (data) => {
   if (data.description) formData.append('description', data.description);
   if (data.price) formData.append('price', data.price);
   if (data.no_telp) formData.append('no_telp', data.no_telp);
+  const shopeeUrl = data.shopee_url ?? data.link_shopee ?? data.marketplace_url;
+  if (shopeeUrl !== undefined) {
+    formData.append('shopee_url', shopeeUrl);
+  }
   if (data.image instanceof File) {
     formData.append('image', data.image);
   } else if (data.image === null) {
