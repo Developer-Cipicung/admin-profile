@@ -41,6 +41,16 @@ export const ProductCard = ({ data, loading, onView, onDelete }) => {
                 {item.no_telp}
               </div>
             )}
+            {item.shopee_url && (
+              <a
+                href={item.shopee_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-2 inline-flex text-xs font-medium text-orange-600"
+              >
+                Buka link Shopee
+              </a>
+            )}
             <div className="flex justify-between text-xs text-gray-500 mb-1">
               <span>Dibuat: {formatDate(item.created_at)}</span>
             </div>

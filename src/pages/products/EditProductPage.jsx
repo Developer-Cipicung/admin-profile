@@ -51,6 +51,7 @@ export const EditProductPage = () => {
     description: product.description || '',
     price: product.price || '',
     no_telp: product.no_telp || '',
+    shopee_url: product.shopee_url || '',
     image: product.image_url, // Pass the string URL so preview works initially
   };
 

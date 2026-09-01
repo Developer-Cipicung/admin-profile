@@ -171,6 +171,7 @@ export const ProductPage = () => {
           { label: 'Deskripsi', value: itemToView.description, fullWidth: true },
           { label: 'Harga', value: formatCurrency(itemToView.price) },
           { label: 'Kontak', value: itemToView.no_telp || '-' },
+          { label: 'Link Shopee', value: itemToView.shopee_url || '-', fullWidth: true },
           { label: 'Dibuat Pada', value: formatDate(itemToView.created_at) },
           { label: 'Diperbarui Pada', value: formatDate(itemToView.updated_at) },
         ] : []}

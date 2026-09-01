@@ -31,6 +31,9 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                 Kontak
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Shopee
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Dibuat Pada
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -65,6 +68,20 @@ export const ProductTable = ({ data, loading, onView, onDelete }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{item.no_telp || '-'}</div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {item.shopee_url ? (
+                    <a
+                      href={item.shopee_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-orange-600 hover:text-orange-800"
+                    >
+                      Buka link
+                    </a>
+                  ) : (
+                    <span className="text-sm text-gray-500">-</span>
+                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {formatDate(item.created_at)}

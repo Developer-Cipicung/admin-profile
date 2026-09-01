@@ -6,7 +6,7 @@ import { Button } from '../common/Button';
 import { ImageUpload } from '../common/ImageUpload';
 
 export const ProductForm = ({
-  defaultValues = { name: '', description: '', price: '', no_telp: '', image: null },
+  defaultValues = { name: '', description: '', price: '', no_telp: '', shopee_url: '', image: null },
   loading = false,
   serverError = null,
   submitLabel = 'Submit',
@@ -103,6 +103,34 @@ export const ProductForm = ({
           })}
         />
         {errors.no_telp && <p className="mt-1 text-sm text-red-600">{errors.no_telp.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="shopee_url" className="block text-sm font-medium text-gray-700 mb-1">
+          Link Shopee <span className="text-gray-400 font-normal">(Opsional)</span>
+        </label>
+        <Input
+          id="shopee_url"
+          type="url"
+          disabled={loading}
+          placeholder="https://shopee.co.id/..."
+          {...register('shopee_url', {
+            setValueAs: (value) => typeof value === 'string' ? value.trim() : value,
+            maxLength: { value: 500, message: 'Link Shopee tidak boleh lebih dari 500 karakter' },
+            validate: (value) => {
+              if (!value) return true;
+
+              try {
+                const url = new URL(value);
+                const isShopee = url.hostname === 'shopee.co.id' || url.hostname.endsWith('.shopee.co.id');
+                return isShopee || 'Link harus menggunakan domain shopee.co.id';
+              } catch {
+                return 'Masukkan URL Shopee yang valid';
+              }
+            },
+          })}
+        />
+        {errors.shopee_url && <p className="mt-1 text-sm text-red-600">{errors.shopee_url.message}</p>}
       </div>
 
       <Controller
