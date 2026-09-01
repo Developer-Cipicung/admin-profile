@@ -1,11 +1,18 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
-const IconSvg = ({ path, className = "w-[18px] h-[18px]" }) => (
+import { newsService } from '../../services/news.service';
+import { getFullImageUrl, processHtmlForDisplay, processHtmlForSave } from '../../utils/image';
+
+// ---------------------------------------------------------------------------
+// Icon helpers
+// ---------------------------------------------------------------------------
+
+const IconSvg = ({ path, className = 'w-[18px] h-[18px]' }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d={path} />
   </svg>
@@ -26,26 +33,38 @@ const Icons = {
   Link: () => <IconSvg path="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />,
   Image: () => <IconSvg path="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM21 15l-5-5L5 21" />,
   Undo: () => <IconSvg path="M3 7v6h6M3 13l3.35-3.35a8 8 0 1 1-1.35 6.35" />,
-  Redo: () => <IconSvg path="M21 7v6h-6M21 13l-3.35-3.35a8 8 0 1 0 1.35 6.35" />
+  Redo: () => <IconSvg path="M21 7v6h-6M21 13l-3.35-3.35a8 8 0 1 0 1.35 6.35" />,
 };
 
-import { newsService } from '../../services/news.service';
-import { getFullImageUrl, processHtmlForDisplay, processHtmlForSave } from '../../utils/image';
+// ---------------------------------------------------------------------------
+// Menu bar
+// ---------------------------------------------------------------------------
+
+const IconButton = ({ onClick, isActive, disabled, children, title }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    className={`p-2 rounded-md transition-colors flex items-center justify-center ${
+      isActive ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+    } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+  >
+    {children}
+  </button>
+);
 
 const MenuBar = ({ editor, setUploadState, onImageUploadSuccess }) => {
   if (!editor) return null;
-  
+
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-    
-    // Reset input
     event.target.value = '';
 
-    // Validate type and size (5MB)
     const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!validTypes.includes(file.type)) {
       setUploadState({ status: 'error', message: 'Hanya file JPEG, PNG, dan WebP yang diperbolehkan.' });
@@ -60,18 +79,15 @@ const MenuBar = ({ editor, setUploadState, onImageUploadSuccess }) => {
 
     setIsUploading(true);
     setUploadState({ status: 'uploading', message: 'Mengunggah gambar...' });
-    
+
     try {
       const response = await newsService.uploadBodyImage(file);
       if (response && response.url) {
-        // Insert at cursor position as block using the absolute URL for display
         const fullUrl = getFullImageUrl(response.url);
         editor.chain().focus().setImage({ src: fullUrl }).run();
-        
         if (onImageUploadSuccess && response.key) {
           onImageUploadSuccess(response.key);
         }
-
         setUploadState({ status: 'success', message: 'Gambar berhasil ditambahkan' });
         setTimeout(() => setUploadState({ status: 'idle', message: '' }), 3000);
       }
@@ -95,108 +111,170 @@ const MenuBar = ({ editor, setUploadState, onImageUploadSuccess }) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
-  const IconButton = ({ onClick, isActive, disabled, children, title }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      className={`p-2 rounded-md transition-colors flex items-center justify-center ${
-        isActive 
-          ? 'bg-blue-100 text-blue-700' 
-          : 'text-gray-600 hover:bg-gray-100'
-      } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-    >
-      {children}
-    </button>
-  );
-
   return (
     <div className="flex flex-wrap gap-1 p-2 bg-gray-50 border-b border-gray-200 rounded-t-md">
       <div className="flex space-x-1 border-r border-gray-300 pr-1 mr-1">
-        <IconButton onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')} title="Tebal (Bold)">
-          <Icons.Bold />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')} title="Miring (Italic)">
-          <Icons.Italic />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().toggleUnderline().run()} isActive={editor.isActive('underline')} title="Garis Bawah (Underline)">
-          <Icons.Underline />
-        </IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')} title="Tebal (Bold)"><Icons.Bold /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')} title="Miring (Italic)"><Icons.Italic /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleUnderline().run()} isActive={editor.isActive('underline')} title="Garis Bawah (Underline)"><Icons.Underline /></IconButton>
       </div>
 
       <div className="flex space-x-1 border-r border-gray-300 pr-1 mr-1">
-        <IconButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} isActive={editor.isActive('heading', { level: 2 })} title="Judul Utama (H2)">
-          <Icons.Heading1 />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} isActive={editor.isActive('heading', { level: 3 })} title="Sub Judul (H3)">
-          <Icons.Heading2 />
-        </IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} isActive={editor.isActive('heading', { level: 2 })} title="Judul Utama (H2)"><Icons.Heading1 /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} isActive={editor.isActive('heading', { level: 3 })} title="Sub Judul (H3)"><Icons.Heading2 /></IconButton>
       </div>
 
       <div className="flex space-x-1 border-r border-gray-300 pr-1 mr-1">
-        <IconButton onClick={() => editor.chain().focus().setTextAlign('left').run()} isActive={editor.isActive({ textAlign: 'left' })} title="Rata Kiri">
-          <Icons.AlignLeft />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().setTextAlign('center').run()} isActive={editor.isActive({ textAlign: 'center' })} title="Rata Tengah">
-          <Icons.AlignCenter />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().setTextAlign('right').run()} isActive={editor.isActive({ textAlign: 'right' })} title="Rata Kanan">
-          <Icons.AlignRight />
-        </IconButton>
+        <IconButton onClick={() => editor.chain().focus().setTextAlign('left').run()} isActive={editor.isActive({ textAlign: 'left' })} title="Rata Kiri"><Icons.AlignLeft /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().setTextAlign('center').run()} isActive={editor.isActive({ textAlign: 'center' })} title="Rata Tengah"><Icons.AlignCenter /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().setTextAlign('right').run()} isActive={editor.isActive({ textAlign: 'right' })} title="Rata Kanan"><Icons.AlignRight /></IconButton>
       </div>
 
       <div className="flex space-x-1 border-r border-gray-300 pr-1 mr-1">
-        <IconButton onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')} title="Daftar Bullet">
-          <Icons.List />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().toggleOrderedList().run()} isActive={editor.isActive('orderedList')} title="Daftar Angka">
-          <Icons.ListOrdered />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().toggleBlockquote().run()} isActive={editor.isActive('blockquote')} title="Kutipan (Blockquote)">
-          <Icons.Quote />
-        </IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')} title="Daftar Bullet"><Icons.List /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleOrderedList().run()} isActive={editor.isActive('orderedList')} title="Daftar Angka"><Icons.ListOrdered /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().toggleBlockquote().run()} isActive={editor.isActive('blockquote')} title="Kutipan (Blockquote)"><Icons.Quote /></IconButton>
       </div>
 
       <div className="flex space-x-1 border-r border-gray-300 pr-1 mr-1">
-        <IconButton onClick={addLink} isActive={editor.isActive('link')} title="Sisipkan Tautan">
-          <Icons.Link />
-        </IconButton>
-        
-        <input 
-          type="file" 
-          accept="image/jpeg,image/png,image/webp" 
-          className="hidden" 
-          ref={fileInputRef}
-          onChange={handleImageUpload}
-        />
-        <IconButton 
-          onClick={() => fileInputRef.current?.click()} 
-          disabled={isUploading}
-          title={isUploading ? "Mengunggah..." : "Sisipkan Gambar"}
-        >
-          {isUploading ? (
-            <span className="w-[18px] h-[18px] border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></span>
-          ) : (
-            <Icons.Image />
-          )}
+        <IconButton onClick={addLink} isActive={editor.isActive('link')} title="Sisipkan Tautan"><Icons.Link /></IconButton>
+        <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" ref={fileInputRef} onChange={handleImageUpload} />
+        <IconButton onClick={() => fileInputRef.current?.click()} disabled={isUploading} title={isUploading ? 'Mengunggah...' : 'Sisipkan Gambar'}>
+          {isUploading
+            ? <span className="w-[18px] h-[18px] border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            : <Icons.Image />}
         </IconButton>
       </div>
 
       <div className="flex space-x-1">
-        <IconButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Batalkan (Undo)">
-          <Icons.Undo />
-        </IconButton>
-        <IconButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Ulangi (Redo)">
-          <Icons.Redo />
-        </IconButton>
+        <IconButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Batalkan (Undo)"><Icons.Undo /></IconButton>
+        <IconButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Ulangi (Redo)"><Icons.Redo /></IconButton>
       </div>
     </div>
   );
 };
 
+// ---------------------------------------------------------------------------
+// Image selection overlay – shows red border + × button on the selected image
+// ---------------------------------------------------------------------------
+
+const ImageDeleteOverlay = ({ editor, editorContainerRef }) => {
+  const [overlayStyle, setOverlayStyle] = useState(null);
+
+  const updateOverlay = useCallback(() => {
+    if (!editor || !editorContainerRef.current) {
+      setOverlayStyle(null);
+      return;
+    }
+
+    const { selection } = editor.state;
+    const selectedNode = selection.node;
+
+    if (!selectedNode || selectedNode.type.name !== 'image') {
+      setOverlayStyle(null);
+      return;
+    }
+
+    // Tiptap adds ProseMirror-selectednode class to the selected node's DOM el
+    const selectedImgEl = editorContainerRef.current.querySelector('img.ProseMirror-selectednode');
+    if (!selectedImgEl) {
+      setOverlayStyle(null);
+      return;
+    }
+
+    const containerRect = editorContainerRef.current.getBoundingClientRect();
+    const imgRect = selectedImgEl.getBoundingClientRect();
+
+    setOverlayStyle({
+      top: imgRect.top - containerRect.top,
+      left: imgRect.left - containerRect.left,
+      width: imgRect.width,
+      height: imgRect.height,
+    });
+  }, [editor, editorContainerRef]);
+
+  useEffect(() => {
+    if (!editor) return;
+    editor.on('selectionUpdate', updateOverlay);
+    editor.on('update', updateOverlay);
+    return () => {
+      editor.off('selectionUpdate', updateOverlay);
+      editor.off('update', updateOverlay);
+    };
+  }, [editor, updateOverlay]);
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    editor.chain().focus().deleteSelection().run();
+    setOverlayStyle(null);
+  };
+
+  if (!overlayStyle) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: overlayStyle.top,
+        left: overlayStyle.left,
+        width: overlayStyle.width,
+        height: overlayStyle.height,
+        pointerEvents: 'none',
+        zIndex: 20,
+      }}
+    >
+      {/* Red border outline */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          border: '2.5px solid #ef4444',
+          borderRadius: '6px',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* × delete button – top right corner */}
+      <button
+        type="button"
+        onMouseDown={handleDelete}
+        title="Hapus gambar"
+        aria-label="Hapus gambar"
+        style={{
+          position: 'absolute',
+          top: -12,
+          right: -12,
+          pointerEvents: 'all',
+          width: 24,
+          height: 24,
+          borderRadius: '50%',
+          background: '#ef4444',
+          color: '#fff',
+          border: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.25)',
+        }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Main exported component
+// ---------------------------------------------------------------------------
+
 export const RichTextEditor = React.forwardRef(({ value, onChange, disabled, onImageUploadSuccess }, ref) => {
   const [uploadState, setUploadState] = useState({ status: 'idle', message: '' });
+  const editorContainerRef = useRef(null);
 
   const editor = useEditor({
     extensions: [
@@ -204,8 +282,8 @@ export const RichTextEditor = React.forwardRef(({ value, onChange, disabled, onI
         heading: { levels: [2, 3, 4] },
       }),
       Image.configure({
-        inline: false, // Make images block-level for better layout
-        allowBase64: false, // Force URLs only
+        inline: false,
+        allowBase64: false,
         HTMLAttributes: {
           class: 'rounded-md shadow-sm max-w-full h-auto mx-auto my-4 border border-gray-200',
         },
@@ -228,7 +306,7 @@ export const RichTextEditor = React.forwardRef(({ value, onChange, disabled, onI
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose-base prose-blue max-w-none focus:outline-none min-h-[400px] p-6 lg:px-8 bg-white',
+        class: 'tiptap-editor',
       },
     },
   });
@@ -236,14 +314,19 @@ export const RichTextEditor = React.forwardRef(({ value, onChange, disabled, onI
   return (
     <div className={`border rounded-md overflow-hidden bg-white flex flex-col shadow-sm transition-colors ${disabled ? 'opacity-70 bg-gray-50' : 'border-gray-300 focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500'}`}>
       <MenuBar editor={editor} setUploadState={setUploadState} onImageUploadSuccess={onImageUploadSuccess} />
-      
-      <div className="relative flex-grow">
+
+      <div className="relative flex-grow" ref={editorContainerRef}>
         <EditorContent editor={editor} />
-        
+
+        {/* Image selection overlay with red border + × button */}
+        {!disabled && editor && (
+          <ImageDeleteOverlay editor={editor} editorContainerRef={editorContainerRef} />
+        )}
+
         {uploadState.status === 'uploading' && (
           <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 backdrop-blur-[1px]">
             <div className="bg-white px-6 py-4 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center">
-              <span className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></span>
+              <span className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3" />
               <p className="text-sm font-medium text-gray-700">{uploadState.message}</p>
             </div>
           </div>
@@ -252,8 +335,8 @@ export const RichTextEditor = React.forwardRef(({ value, onChange, disabled, onI
 
       {uploadState.status !== 'idle' && uploadState.status !== 'uploading' && (
         <div className={`px-4 py-2.5 text-xs font-medium border-t ${
-          uploadState.status === 'success' 
-            ? 'bg-green-50 text-green-700 border-green-100' 
+          uploadState.status === 'success'
+            ? 'bg-green-50 text-green-700 border-green-100'
             : 'bg-red-50 text-red-700 border-red-100'
         }`}>
           {uploadState.message}

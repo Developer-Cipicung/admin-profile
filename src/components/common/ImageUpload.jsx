@@ -69,24 +69,40 @@ export const ImageUpload = ({
       </label>
       
       {currentPreview ? (
-        <div className="relative inline-block">
-          <img 
-            src={currentPreview} 
-            alt="Image preview" 
-            className="w-full max-w-sm h-48 object-cover rounded-lg border border-gray-200 bg-gray-50"
+        <div
+          className="relative inline-block group cursor-pointer select-none"
+          onClick={() => {
+            if (!disabled) handleRemove();
+          }}
+          title="Klik untuk hapus gambar"
+        >
+          {/* Image */}
+          <img
+            src={currentPreview}
+            alt="Image preview"
+            className="w-full max-w-sm h-48 object-cover rounded-lg bg-gray-50 transition-all duration-200 group-hover:brightness-75 group-hover:ring-2 group-hover:ring-red-400"
           />
-          {(localPreview || onRemove) && (
-            <div className="mt-2 flex space-x-2">
-              <Button 
-                type="button" 
-                variant="danger" 
-                onClick={handleRemove} 
-                disabled={disabled}
-                className="text-xs py-1 px-3"
-              >
-                Remove image
-              </Button>
-            </div>
+
+          {/* Overlay border on hover */}
+          <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-red-400 transition-all duration-200 pointer-events-none" />
+
+          {/* X button – top right */}
+          {!disabled && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemove();
+              }}
+              className="absolute -top-2 -right-2 z-10 flex items-center justify-center w-6 h-6 rounded-full bg-red-500 text-white shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+              title="Hapus gambar"
+              aria-label="Hapus gambar"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           )}
         </div>
       ) : (
