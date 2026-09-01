@@ -15,6 +15,10 @@ export const buildNewsFormData = (data) => {
     formData.append('remove_thumbnail', 'true');
   }
 
+  if (data.uploaded_images && Array.isArray(data.uploaded_images)) {
+    formData.append('uploaded_images', JSON.stringify(data.uploaded_images));
+  }
+
   return formData;
 };
 

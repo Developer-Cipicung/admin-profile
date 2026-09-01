@@ -47,6 +47,24 @@ export const newsService = {
    * @returns {Promise<Object>} API response
    */
   deleteNews: async (id) => {
-    return api.delete(`/admin/news/${id}`);
+    const response = await api.delete(`/admin/news/${id}`);
+    return response.data;
   },
+
+  uploadBodyImage: async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    const response = await api.postForm('/admin/news/images', formData);
+    return response.data;
+  },
+
+  cleanupBodyImages: async (keys) => {
+    if (!keys || keys.length === 0) return;
+    try {
+      await api.post('/admin/news/images/cleanup', { keys });
+    } catch (e) {
+      console.error('Failed to cleanup body images', e);
+    }
+  }
 };

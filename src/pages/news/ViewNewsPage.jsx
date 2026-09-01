@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { newsService } from '../../services/news.service';
 import { formatDate } from '../../utils/date';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
-import { getFullImageUrl } from '../../utils/image';
+import { getFullImageUrl, processHtmlForDisplay } from '../../utils/image';
 
 export const ViewNewsPage = () => {
   const { id } = useParams();
@@ -117,9 +117,10 @@ export const ViewNewsPage = () => {
           </div>
 
           {/* Content Body */}
-          <div className="prose prose-blue max-w-none prose-p:text-gray-700 prose-headings:text-gray-900 text-gray-800 whitespace-pre-wrap leading-relaxed">
-            {news.content}
-          </div>
+          <div 
+            className="prose prose-blue max-w-none prose-p:text-gray-700 prose-headings:text-gray-900 prose-img:rounded-lg prose-img:shadow-sm prose-img:mx-auto prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline text-gray-800 leading-relaxed whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: processHtmlForDisplay(news.content) }}
+          />
         </div>
       </div>
     </div>

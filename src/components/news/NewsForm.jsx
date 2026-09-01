@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input } from '../form/Input';
-import { Textarea } from '../form/Textarea';
+import { RichTextEditor } from '../form/RichTextEditor';
 import { Button } from '../common/Button';
 import { ImageUpload } from '../common/ImageUpload';
 
@@ -21,11 +21,33 @@ export const NewsForm = ({
     formState: { errors } 
   } = useForm({ defaultValues });
 
+  const sessionImages = React.useRef(new Set());
+  const isSubmitting = React.useRef(false);
+
+  React.useEffect(() => {
+    return () => {
+      // If user navigates away or unmounts without submitting, cleanup orphans
+      if (!isSubmitting.current) {
+        const keys = Array.from(sessionImages.current);
+        if (keys.length > 0) {
+          import('../../services/news.service').then(({ newsService }) => {
+            newsService.cleanupBodyImages(keys);
+          });
+        }
+      }
+    };
+  }, []);
+
   const handleFormSubmit = (data) => {
+    isSubmitting.current = true;
     if (onSubmit) {
-      onSubmit(data);
+      onSubmit({ ...data, uploaded_images: Array.from(sessionImages.current) });
     }
   };
+
+  const handleImageUploadSuccess = React.useCallback((key) => {
+    sessionImages.current.add(key);
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 max-w-2xl bg-white p-6 rounded-lg border border-gray-200">
@@ -68,17 +90,22 @@ export const NewsForm = ({
         {errors.created_at && <p className="mt-1 text-sm text-red-600">{errors.created_at.message}</p>}
       </div>
 
-      <div>
+      <div className="prose-container">
         <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
           Konten <span className="text-red-500">*</span>
         </label>
-        <Textarea
-          id="content"
-          rows={8}
-          disabled={loading}
-          {...register('content', { 
-            required: 'Konten wajib diisi'
-          })}
+        <Controller
+          control={control}
+          name="content"
+          rules={{ required: 'Konten wajib diisi' }}
+          render={({ field: { value, onChange } }) => (
+            <RichTextEditor 
+              value={value} 
+              onChange={onChange} 
+              disabled={loading} 
+              onImageUploadSuccess={handleImageUploadSuccess}
+            />
+          )}
         />
         {errors.content && <p className="mt-1 text-sm text-red-600">{errors.content.message}</p>}
       </div>

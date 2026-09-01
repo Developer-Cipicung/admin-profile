@@ -17,3 +17,20 @@ export const getFullImageUrl = (path, fallback = '/placeholder.svg') => {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${API_URL}${cleanPath}`;
 };
+
+/**
+ * Prepares HTML content for display by converting relative image paths to absolute URLs.
+ */
+export const processHtmlForDisplay = (html) => {
+  if (!html || !API_URL) return html;
+  return html.replace(/src="(\/api\/v1\/images\/[^"]+)"/g, `src="${API_URL}$1"`);
+};
+
+/**
+ * Prepares HTML content for saving by stripping API_URL from image paths to keep them relative.
+ */
+export const processHtmlForSave = (html) => {
+  if (!html || !API_URL) return html;
+  const escapedApiUrl = API_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return html.replace(new RegExp(`src="${escapedApiUrl}(/api/v1/images/[^"]+)"`, 'g'), 'src="$1"');
+};
